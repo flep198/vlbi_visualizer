@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>VLBI-Visualizer</title>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="some.css" />  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.16.2.min.js"></script>
+  </head>
+  <body id="markers-on-the-map">
+    <div class="page-header">
+        <h1>VLBI-Visualizer</h1>
+        <p>Have fun building your own telescope!</p>
+    </div>
+    <p>Adjust Source Declination -90<input type="range" id="declination_control" name="declination_control" 
+         min="-90" max="90" value="0" step="1">90</p>
+    <p>Adjust Elevation Limit of Telescopes 0<input type="range" id="elev_lim_control" name="elev_lim_control" 
+         min="0" max="30" value="0" step="1">30</p></p>
+    <div id="map"></div>
+    <button type="button" id="add_tel_button">Add Telescope</button> 
+    <button type="button" id="measure_button">Start Measurement</button> 
+    <input type="range" id="time_control" name="time_control" 
+         min="0" max="99" value="99" step="1">
+    <div class="row">
+      <div class="col-md-6">  
+        <canvas id="canvas_uv"></canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas id="canvas_image"></canvas>
+      </div>
+    </div>
+    <h3>Code</h3>
+    <p>Default markers are created by using the <code>H.map.Marker</code> class without specifying an icon and passing in a location only. 
+      To respond to drag events the <code>marker.draggable</code> flag needs to be set. The default panning interaction of the 
+      map (<code>H.mapevents.Behavior</code>) must be disabled whilst the <code>drag</code> event is in operation.</p>
+    
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js" integrity="sha256-8oQ1OnzE2X9v4gpRVRMb1DWHoPHJilbur1LP9ykQ9H0=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="connect_api.js"></script>
+    <script type="text/javascript" src="fourier.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+  </body>  
+</html>
+
