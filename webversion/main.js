@@ -64,7 +64,12 @@ function updateUVtracks(){
   let image=[]; //create image
   
 	let u_v_track=Array(n_baselines).fill().map(() => Array(2).fill([]));
-  
+
+  let first=true;
+
+  let first_i=0;
+
+  let last_i=0;  
   
   for (let i = 0; i < n_iter; i++) {
 
@@ -96,7 +101,13 @@ function updateUVtracks(){
       for (let m=0; m<tels.length;m++){
           if (m<(tels.length-1)){
               for (let l=m+1;l<tels.length;l++){
-                  if(tel_visible[m] && tel_visible[l]){												
+                  if(tel_visible[m] && tel_visible[l]){				
+
+                      if (first){
+                        first=false;
+                        first_i=i.toString();
+                      };
+
                       //get new u_v data point
                       var baseline_uv=getUV(tels[m],tels[l],matrix);
                       var u=baseline_uv[0];
@@ -116,6 +127,8 @@ function updateUVtracks(){
                       var y_ind=Math.floor((-v+plotLim)/pixelSize);
 
                       u_v_grid[y_ind][x_ind]=1;
+
+                      last_i=i;
 									}
                   baseline_count+=1;
                }
@@ -126,8 +139,13 @@ function updateUVtracks(){
       }
 
   var uv_image=DrawUVCanvas(u_v_grid);
-  console.log(uv_image);
   DrawFourierCanvas(uv_image);
+
+  //set time control element from start to end of observation
+  time_control.min=first_i;
+  time_control.max=last_i.toString();
+  time_control.value=last_i.toString();
+  time_control.style.display = '';
  
 }
 
@@ -302,10 +320,12 @@ measure_button.addEventListener('click', function() {
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
-  var indx = Math.floor(time_control.value*n_iter/100);
+  var indx = Math.floor(time_control.value);
 	var uv_image=DrawUVCanvas(u_v_grids[indx]);
   DrawFourierCanvas(uv_image);
   }, false);
+time_control.step=n_iter/100;
+time_control.style.display = 'none';
   
 
 var declination_control = document.getElementById("declination_control");
