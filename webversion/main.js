@@ -11,7 +11,7 @@
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
-let n_iter=1000; //number of iterations
+let n_iter=100; //number of iterations
 let cc = 9e-6 //contrast constant
 
 
@@ -29,6 +29,7 @@ let images=[];
  
 //update plots according to telescopes and selected time
 function updateUVtracks(){
+
   //update source declination
   let source = [200, declination_control.value];
   let elev_lim=elev_lim_control.value; //elevetion limit for telescopes in degree
@@ -315,8 +316,14 @@ add_tel_button.addEventListener('click', function() {
 //add event listener to Add Telescope button
 var measure_button = document.getElementById("measure_button");
 measure_button.addEventListener('click', function() { 
-	updateUVtracks();
-  }, false);
+  //turn on loading screen
+  loading_screen.style.display = 'block';
+  setTimeout(function(){
+    updateUVtracks();
+    //turn off loading screen
+    loading_screen.style.display = 'none';
+  }, 20);
+}, false);
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
@@ -342,5 +349,4 @@ canvas_uv.width=imgSize;
 canvas_uv.height=imgSize;
 var ctx_uv=canvas_uv.getContext('2d');
 
- 
-
+var loading_screen = document.getElementById("cover-spin");
