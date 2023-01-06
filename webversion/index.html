@@ -29,10 +29,13 @@
     <input type="range" id="time_control" name="time_control" 
          min="0" max="99" value="99" step="1">
     <div class="row">
-      <div class="col-md-6">  
+      <div class="col-md-4">
+        <svg></svg>
+      </div>
+      <div class="col-md-4 text-center">  
         <canvas id="canvas_uv"></canvas>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4 text-center">
         <canvas id="canvas_image"></canvas>
       </div>
     </div>
@@ -43,11 +46,17 @@
 
     <!-- loading screen -->
     <div id="cover-spin"></div>
-    
+
+  
+        
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="globe.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.0.min.js" integrity="sha256-8oQ1OnzE2X9v4gpRVRMb1DWHoPHJilbur1LP9ykQ9H0=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="connect_api.js"></script>
     <script type="text/javascript" src="fourier.js"></script>
     <script type="text/javascript" src="main.js"></script>
+
   </body>  
 </html>
 

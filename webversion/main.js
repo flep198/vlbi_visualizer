@@ -23,6 +23,11 @@ let z = r*Math.sin(delta/180*Math.PI);
 return [x,y,z];
 }
 
+//Globe Telescope Locations
+let locations = [];
+
+let source = [0,0];
+
 let first_i=0;
 
 let last_i=0;  
@@ -37,7 +42,7 @@ function updateUVtracks(){
   images=[];
 
   //update source declination
-  let source = [200, declination_control.value];
+  source = [200, declination_control.value];
   let elev_lim=elev_lim_control.value; //elevetion limit for telescopes in degree
 
   //calculate u-v transformation matrix from source coordinates
@@ -158,6 +163,18 @@ function updateUVtracks(){
   time_control.max=last_i.toString();
   time_control.value=last_i.toString();
   time_control.style.display = '';
+
+  //Draw 3D globe
+  locations = [];
+  for (j=0;j<telescopes.length;j++){
+    locations.push({"latitude": telescopes[j].getGeometry().lat, "longitude": telescopes[j].getGeometry().lng})
+  } 
+
+
+  
+  drawGlobe();
+  drawGraticule();
+  RotateGlobe(source[0]+360/n_iter*last_i-45,-source[1]);
  
 }
 
@@ -348,6 +365,7 @@ time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
 	DrawUVCanvas(u_v_grids[indx]);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
+  RotateGlobe(source[0]+360/n_iter*indx-45,-source[1]);
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
