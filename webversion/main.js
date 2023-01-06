@@ -11,7 +11,7 @@
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
-let n_iter=100; //number of iterations
+let n_iter=50; //number of iterations
 let cc = 9e-6 //contrast constant
 
 
@@ -23,12 +23,18 @@ let z = r*Math.sin(delta/180*Math.PI);
 return [x,y,z];
 }
 
+let first_i=0;
+
+let last_i=0;  
+
   
 let u_v_grids=[];
 let images=[];
  
 //update plots according to telescopes and selected time
 function updateUVtracks(){
+
+  images=[];
 
   //update source declination
   let source = [200, declination_control.value];
@@ -68,9 +74,8 @@ function updateUVtracks(){
 
   let first=true;
 
-  let first_i=0;
-
-  let last_i=0;  
+  first_i=0;
+  last_i=0;
   
   for (let i = 0; i < n_iter; i++) {
 
@@ -139,8 +144,14 @@ function updateUVtracks(){
       u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid));
       }
 
-  var uv_image=DrawUVCanvas(u_v_grid);
-  DrawFourierCanvas(uv_image);
+  DrawUVCanvas(u_v_grid);
+
+  for (ai=first_i;ai<=last_i;ai++){
+    DrawFourierCanvas(u_v_grids[ai]);
+  };
+  
+
+  ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
 
   //set time control element from start to end of observation
   time_control.min=first_i;
@@ -151,18 +162,19 @@ function updateUVtracks(){
 }
 
 
-function DrawFourierCanvas(uv_image){
+function DrawFourierCanvas(u_v_grid){
 
   //calculate the Fourier Transform
 
   var h_es=[];
-  for (var ai=0; ai < uv_image.data.length; ai+=4){
-    h_es.push(uv_image.data[ai]);
+  for (var ai=0; ai < imgSize; ai++){
+    for (var ak=0; ak < imgSize; ak++){
+      h_es.push(u_v_grid[ai][ak]*255);
+    };    
   };
 
   h=function(n,m){
     if (arguments.length ===0) return h_es;
-    var idx = n*imgSize+m;
     return h_es[idx];
   };
 
@@ -182,7 +194,15 @@ function DrawFourierCanvas(uv_image){
   // store them in a nice function to match the math
   $h = function(k, l) {
     if (arguments.length === 0) return h_hats;
-    var idx = k*imgSize + l;
+    //flip second part of the fourier image (for some reason this needs to be done because fourier.js is wrong)
+    if (l<imgSize/2){
+      var idx = k*imgSize + l;
+    } else {
+      if(k==511){
+        k=-1;
+      };
+      var idx = (imgSize-k-2)*imgSize + l;
+    }
     return h_hats[idx];
   };
 
@@ -207,7 +227,7 @@ function DrawFourierCanvas(uv_image){
     }
   }
   
-  ctx_image.putImageData(currImageData, 0, 0);
+  images.push(currImageData);
 
 }
 
@@ -224,8 +244,6 @@ for (y=0; y < img_data.length; y++){
     ctx_uv.fillRect(x,y,1,1)
   };
 };
-
-return ctx_uv.getImageData(0,0,canvas_uv.width,canvas_uv.height);
 
 }
 
@@ -328,8 +346,8 @@ measure_button.addEventListener('click', function() {
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
-	var uv_image=DrawUVCanvas(u_v_grids[indx]);
-  DrawFourierCanvas(uv_image);
+	DrawUVCanvas(u_v_grids[indx]);
+  ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
