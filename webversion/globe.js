@@ -5,6 +5,7 @@ const width = 960;
             const svg = d3.select('svg')
                 .attr('width', width).attr('height', height);
             const markerGroup = svg.append('g');
+            const lineGroup = svg.append('g');
             const projection = d3.geoOrthographic();
             const initialScale = projection.scale();
             const path = d3.geoPath().projection(projection);
@@ -57,11 +58,49 @@ const width = 960;
                     .attr('fill', d => {
                         const coordinate = [d.longitude, d.latitude];
                         gdistance = d3.geoDistance(coordinate, projection.invert(center));
-                        return gdistance > 1.57 ? 'none' : 'steelblue';
+                        return gdistance > 1.570796 ? 'none' : 'steelblue';
                     })
                     .attr('r', 7);
 
                 markerGroup.each(function () {
                     this.parentNode.appendChild(this);
                 });
+
+                //draw baselines
+
+                var baselineLocations = [];
+
+                for (i=0;i<(locations.length-1);i++){
+                    for (j=i+1;j<locations.length;j++){
+                        baselineLocations.push({"lat1": locations[i].latitude, "lon1": locations[i].longitude,
+                                                "lat2": locations[j].latitude, "lon2": locations[j].longitude});
+                    }                    
+                }
+
+                const baselines = lineGroup.selectAll('line')
+                    .data(baselineLocations);
+                baselines
+                    .enter()
+                    .append('line')
+                    .merge(baselines)
+                    .attr("x1", d => projection([d.lon1, d.lat1])[0])     // x position of the first end of the line
+                    .attr("y1", d => projection([d.lon1, d.lat1])[1])      // y position of the first end of the line
+                    .attr("x2", d => projection([d.lon2, d.lat2])[0])     // x position of the second end of the line
+                    .attr("y2", d => projection([d.lon2, d.lat2])[1])    // y position of the second end of the line
+                    .attr("stroke",'black')
+                    .attr('opacity', d => {
+                        const coordinate1 = [d.lon1, d.lat1];
+                        const coordinate2 = [d.lon2,d.lat2];
+                        gdistance1 = d3.geoDistance(coordinate1, projection.invert(center));
+                        gdistance2 = d3.geoDistance(coordinate2, projection.invert(center));
+                        return (gdistance1 > 1.570796*(1-2*elev_lim/180))  || (gdistance2 > 1.570796*(1-2*elev_lim/180)) ? 0 : 1;
+                    })
+                    .attr('stroke-width',3);
+
+                lineGroup.each(function (){
+                    this.parentNode.appendChild(this);
+                });
+                    
+
+
             }

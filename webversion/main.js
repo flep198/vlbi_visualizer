@@ -35,6 +35,8 @@ let last_i=0;
   
 let u_v_grids=[];
 let images=[];
+
+var elev_lim=0;
  
 //update plots according to telescopes and selected time
 function updateUVtracks(){
@@ -43,7 +45,7 @@ function updateUVtracks(){
 
   //update source declination
   source = [200, declination_control.value];
-  let elev_lim=elev_lim_control.value; //elevetion limit for telescopes in degree
+  elev_lim=parseInt(elev_lim_control.value); //elevetion limit for telescopes in degree
 
   //calculate u-v transformation matrix from source coordinates
   let H_var=source[0]/180*Math.PI;
@@ -369,10 +371,6 @@ play_button.addEventListener('click', function() {
     setTimeout(function(){
       time_control.value=idx.toString();
       time_control.dispatchEvent(new Event('input'));
-      //DrawUVCanvas(u_v_grids[indx]);
-      //ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
-      //RotateGlobe(source[0]+360/n_iter*innx-45,-source[1]);
-      console.log(idx);
     }, count*250);
     count++;
   }
@@ -388,7 +386,6 @@ time_control.addEventListener('input', function () {
 	DrawUVCanvas(u_v_grids[indx]);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
   RotateGlobe(source[0]+360/n_iter*indx-45,-source[1]);
-  console.log(indx);
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
