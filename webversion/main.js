@@ -163,6 +163,7 @@ function updateUVtracks(){
   time_control.max=last_i.toString();
   time_control.value=last_i.toString();
   time_control.style.display = '';
+  play_button.style.display = '';
 
   //Draw 3D globe
   locations = [];
@@ -348,7 +349,7 @@ add_tel_button.addEventListener('click', function() {
   count_telescopes++;
   }, false);
 
-//add event listener to Add Telescope button
+//add event listener to Measure button
 var measure_button = document.getElementById("measure_button");
 measure_button.addEventListener('click', function() { 
   //turn on loading screen
@@ -360,12 +361,34 @@ measure_button.addEventListener('click', function() {
   }, 20);
 }, false);
 
+//add event listener to Play button
+var play_button = document.getElementById("play_button");
+play_button.addEventListener('click', function() { 
+  let count=0;
+  for (let idx=parseInt(time_control.min);idx<=parseInt(time_control.max);idx++){
+    setTimeout(function(){
+      time_control.value=idx.toString();
+      time_control.dispatchEvent(new Event('input'));
+      //DrawUVCanvas(u_v_grids[indx]);
+      //ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
+      //RotateGlobe(source[0]+360/n_iter*innx-45,-source[1]);
+      console.log(idx);
+    }, count*250);
+    count++;
+  }
+}, false);
+play_button.style.display = 'none';
+
+
+
+
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
 	DrawUVCanvas(u_v_grids[indx]);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
   RotateGlobe(source[0]+360/n_iter*indx-45,-source[1]);
+  console.log(indx);
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
