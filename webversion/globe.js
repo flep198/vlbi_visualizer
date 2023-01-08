@@ -87,7 +87,7 @@ const width = 960;
                     .attr("y1", d => projection([d.lon1, d.lat1])[1])      // y position of the first end of the line
                     .attr("x2", d => projection([d.lon2, d.lat2])[0])     // x position of the second end of the line
                     .attr("y2", d => projection([d.lon2, d.lat2])[1])    // y position of the second end of the line
-                    .attr("stroke",'black')
+                    .attr("stroke",'red')
                     .attr('opacity', d => {
                         const coordinate1 = [d.lon1, d.lat1];
                         const coordinate2 = [d.lon2,d.lat2];
