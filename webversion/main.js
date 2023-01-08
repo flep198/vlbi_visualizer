@@ -268,9 +268,9 @@ for (y=0; y < img_data.length; y++){
 }
 
 
-function addDraggableMarker(map, behavior){
+function addDraggableMarker(map, behavior, latitude, longitude){
 
-  var marker = new H.map.Marker({lat:map.getCenter().lat, lng:map.getCenter().lng}, {
+  var marker = new H.map.Marker({lat:latitude, lng:longitude}, {
     // mark the object as volatile for the smooth dragging
     volatility: true
   });
@@ -346,7 +346,7 @@ var count_telescopes= 0;
 //add event listener to Add Telescope button
 var add_tel_button = document.getElementById("add_tel_button");
 add_tel_button.addEventListener('click', function() { 
-	var marker_new=addDraggableMarker(map,behavior);
+	var marker_new=addDraggableMarker(map,behavior,map.getCenter().lat,map.getCenter().lng);
   telescopes[count_telescopes]=marker_new;
   count_telescopes++;
   }, false);
@@ -406,3 +406,25 @@ canvas_uv.height=imgSize;
 var ctx_uv=canvas_uv.getContext('2d');
 
 var loading_screen = document.getElementById("cover-spin");
+
+
+// pre-defined telescope arrays
+
+var vlba = document.getElementById('vlba');
+
+vlba.addEventListener('change', function() {
+  if (this.checked) {
+    vlba_locations=[[42.93362, -71.98681],[41.77165, -91.574133],[30.635214, -103.944826],
+      [35.775289, -106.24559],[34.30107, -108.11912],[31.956253, -111.612361],
+      [37.23176, -118.27714],[48.13117, -119.68325],[19.80159, -155.45581],[17.75652, -64.58376]]
+    for (i=0;i<vlba_locations.length;i++){
+      var marker_new=addDraggableMarker(map,behavior,vlba_locations[i][0],vlba_locations[i][1]);
+      telescopes[count_telescopes]=marker_new;
+      count_telescopes++;
+    };
+  } else {
+    console.log("Checkbox is not checked..");
+  }
+});
+
+vlba.dispatchEvent(new Event('change'));
