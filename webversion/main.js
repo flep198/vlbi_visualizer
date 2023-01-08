@@ -410,21 +410,93 @@ var loading_screen = document.getElementById("cover-spin");
 
 // pre-defined telescope arrays
 
+//function to add list of telescopes
+
+var preset_locations = [];
+var checkboxes = [];
+
+function addTelescopesToMap(tel_locations){
+  for (i=0;i<tel_locations.length;i++){
+    var marker_new=addDraggableMarker(map,behavior,tel_locations[i][0],tel_locations[i][1]);
+    telescopes[count_telescopes]=marker_new;
+    count_telescopes++;
+  };
+}
+
+function removeTelescopesFromMap(tel_locations){
+  if (tel_locations.length>0){
+    for (i=0;i<tel_locations.length;i++){    
+
+      function checkTel(telescope) {
+        return telescope.getGeometry().lat==tel_locations[i][0] && telescope.getGeometry().lng==tel_locations[i][1];
+      };
+
+      const index = telescopes.findIndex(checkTel);
+
+      if (index > -1) {
+        map.removeObject(telescopes[index]);
+        telescopes.splice(index, 1);
+        count_telescopes--;
+      }
+    };
+  };
+}
+
+function changeCheckboxAction(){
+  removeTelescopesFromMap(preset_locations);
+
+  preset_locations=[];
+
+  for(ai=0;ai<checkboxes.length;ai++){
+    if(checkboxes[ai].box.checked){
+      for(ak=0;ak<checkboxes[ai].locations.length;ak++){
+        //append all Telescopes, but only once
+        function checkTel(telescope) {
+          return telescope[0]==checkboxes[ai].locations[ak][0] && telescope[1]==checkboxes[ai].locations[ak][1];
+        };
+        const index = preset_locations.findIndex(checkTel);
+        if (index == -1) {
+          preset_locations.push(checkboxes[ai].locations[ak]);
+        };
+      };
+    };
+  };
+  addTelescopesToMap(preset_locations);
+}
+
 var vlba = document.getElementById('vlba');
 
-vlba.addEventListener('change', function() {
-  if (this.checked) {
-    vlba_locations=[[42.93362, -71.98681],[41.77165, -91.574133],[30.635214, -103.944826],
+var vlba_locations=[[42.93362, -71.98681],[41.77165, -91.574133],[30.635214, -103.944826],
       [35.775289, -106.24559],[34.30107, -108.11912],[31.956253, -111.612361],
-      [37.23176, -118.27714],[48.13117, -119.68325],[19.80159, -155.45581],[17.75652, -64.58376]]
-    for (i=0;i<vlba_locations.length;i++){
-      var marker_new=addDraggableMarker(map,behavior,vlba_locations[i][0],vlba_locations[i][1]);
-      telescopes[count_telescopes]=marker_new;
-      count_telescopes++;
-    };
-  } else {
-    console.log("Checkbox is not checked..");
-  }
+      [37.23176, -118.27714],[48.13117, -119.68325],[19.80159, -155.45581],[17.75652, -64.58376]];
+
+checkboxes.push({"box": vlba, "locations": vlba_locations});
+
+vlba.addEventListener('change', function() {
+  changeCheckboxAction();
 });
 
-vlba.dispatchEvent(new Event('change'));
+var eht2017 = document.getElementById('eht2017');
+
+var eht2017_locations=[[32.701547,-109.891269],[-23.005893,-67.759155],[37.066162,-3.392918],[19.822485,-155.476718],
+      [18.985439,-97.314765],[19.8237546,-155.477420],[-23.024135,-67.754230],[-89.99,-63.453056]];
+checkboxes.push({"box": eht2017, "locations": eht2017_locations});
+
+eht2017.addEventListener('change', function() {
+  changeCheckboxAction();
+});
+
+var eht2018 = document.getElementById('eht2018');
+
+var eht2018_locations=[[32.701547,-109.891269],[-23.005893,-67.759155],[37.066162,-3.392918],[19.822485,-155.476718],
+      [18.985439,-97.314765],[19.8237546,-155.477420],[-23.024135,-67.754230],[-89.99,-63.453056],[76.531203,-68.703161],[44.63389,5.90792],[31.9533,-111.615]];
+checkboxes.push({"box": eht2018, "locations": eht2018_locations});
+
+eht2018.addEventListener('change', function() {
+  changeCheckboxAction();
+});
+
+
+
+changeCheckboxAction();
+
