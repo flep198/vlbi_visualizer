@@ -1,4 +1,4 @@
-const width = 960;
+const width = 500;
             const height = 500;
 
             
@@ -6,7 +6,8 @@ const width = 960;
                 .attr('width', width).attr('height', height);
             const markerGroup = svg.append('g');
             const lineGroup = svg.append('g');
-            const projection = d3.geoOrthographic();
+            const projection = d3.geoOrthographic()
+                .translate([width/2,height/2]);
             const initialScale = projection.scale();
             const path = d3.geoPath().projection(projection);
             const center = [width/2, height/2];  
@@ -99,8 +100,5 @@ const width = 960;
 
                 lineGroup.each(function (){
                     this.parentNode.appendChild(this);
-                });
-                    
-
-
+                });        
             }
