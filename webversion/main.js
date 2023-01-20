@@ -494,6 +494,15 @@ eht2018.addEventListener('change', function() {
   changeCheckboxAction();
 });
 
+var tanami = document.getElementById('tanami');
+
+var tanami_locations=[[-30.31,149.57],[-31.30,149.07],[-33.00,148.26],[-42.80,147.44],[-31.87,133.81],[-25.89,27.67],[-14.38,132.15],[-29.05,115,35],[-36.43,174.66]];
+checkboxes.push({"box": tanami, "locations": tanami_locations});
+
+tanami.addEventListener('change', function() {
+  changeCheckboxAction();
+});
+
 
 
 changeCheckboxAction();
