@@ -503,7 +503,33 @@ tanami.addEventListener('change', function() {
   changeCheckboxAction();
 });
 
-
-
 changeCheckboxAction();
 
+
+//map modal
+var map_modal = document.getElementById("map-modal");
+var map_modal_btn = document.getElementById("map-modal-button");
+var map_modal_span = document.getElementById("close-map-modal");
+map_modal_btn.onclick = function() {map_modal.style.display = "block";}
+map_modal_span.onclick = function() {map_modal.style.display = "none";}
+
+//info modal for map
+var info_modal1 = document.getElementById("info-modal-1");
+var info_modal_btn1 = document.getElementById("info-modal-button-1");
+var info_modal_span1 = document.getElementById("close-info-modal-1");
+info_modal_btn1.onclick = function() {info_modal1.style.display = "block";}
+info_modal_span1.onclick = function() {info_modal1.style.display = "none";}
+
+//info modal for uv coverage
+var info_modal2 = document.getElementById("info-modal-2");
+var info_modal_btn2 = document.getElementById("info-modal-button-2");
+var info_modal_span2 = document.getElementById("close-info-modal-2");
+info_modal_btn2.onclick = function() {info_modal2.style.display = "block";}
+info_modal_span2.onclick = function() {info_modal2.style.display = "none";}
+
+//info modal for image
+var info_modal3 = document.getElementById("info-modal-3");
+var info_modal_btn3 = document.getElementById("info-modal-button-3");
+var info_modal_span3 = document.getElementById("close-info-modal-3");
+info_modal_btn3.onclick = function() {info_modal3.style.display = "block";}
+info_modal_span3.onclick = function() {info_modal3.style.display = "none";}

@@ -18,47 +18,93 @@
     <div class="page-header">
         <h1>VLBI-Visualizer</h1>
         <p>Have fun building your own telescope!</p>
+        <p><input type="button" id="map-modal-button" value="Modify Telescopes"/></p>
     </div>
-    <p>Adjust Source Declination -90<input type="range" id="declination_control" name="declination_control" 
-         min="-90" max="90" value="0" step="1">90</p>
-    <p>Adjust Elevation Limit of Telescopes 0<input type="range" id="elev_lim_control" name="elev_lim_control" 
-         min="0" max="30" value="0" step="1">30</p></p>
 
-    <p>
-      <input type="checkbox" id="vlba" name="vlba">
-      <label for="vlba">VLBA</label>
-
-      <input type="checkbox" id="eht2017" name="eht2017">
-      <label for="eht">EHT (2017)</label>
-
-      <input type="checkbox" id="eht2018" name="eht2018">
-      <label for="eht">EHT (2018-2020)</label>
-
-      <input type="checkbox" id="tanami" name="tanami">
-      <label for="eht">TANAMI</label>
-    
-    </p>
-
-    <div id="map"></div>
-    <button type="button" id="add_tel_button">Add Telescope</button> 
-    <button type="button" id="measure_button">Start Measurement</button>
     <button type="button" id="play_button">Play</button> 
     <input type="range" id="time_control" name="time_control" 
          min="0" max="99" value="99" step="1">
     <div class="row">
       <div class="col-md-4">
+        <input type="button" id="info-modal-button-1" value="i"/>
         <svg></svg>
       </div>
-      <div class="col-md-4 text-center">  
+      <div class="col-md-4 text-center"> 
+        <input type="button" id="info-modal-button-2" value="i"/> 
         <canvas id="canvas_uv"></canvas>
       </div>
       <div class="col-md-4 text-center">
+        <input type="button" id="info-modal-button-3" value="i"/>
         <canvas id="canvas_image"></canvas>
       </div>
     </div>
 
     <!-- loading screen -->
     <div id="cover-spin"></div>
+
+
+    <!-- info modal for map-->
+    <div id="info-modal-1" class="info-modal">
+      <div class="info-modal-content" id="info-modal-content-1">
+        <span class="close" id="close-info-modal-1">&times;</span>
+        This is info about the map
+      </div>
+
+    </div>
+
+
+    <!-- info modal for UV Coverage-->
+    <div id="info-modal-2" class="info-modal">
+      <div class="info-modal-content" id="info-modal-content-2">
+        <span class="close" id="close-info-modal-2">&times;</span>
+        This is info about the uv coverage
+      </div>
+
+    </div>
+
+    <!-- info modal for Image-->
+    <div id="info-modal-3" class="info-modal">
+      <div class="info-modal-content" id="info-modal-content-3">
+        <span class="close" id="close-info-modal-3">&times;</span>
+        This is info about the image
+      </div>
+
+    </div>
+
+
+    <!-- Map modal -->
+    <div id="map-modal" class="map-modal">
+      <div class="map-modal-content" id="map-modal-content">
+        <span class="close" id="close-map-modal">&times;</span>
+
+        <p>Adjust Source Declination -90<input type="range" id="declination_control" name="declination_control" 
+             min="-90" max="90" value="0" step="1">90</p>
+        <p>Adjust Elevation Limit of Telescopes 0<input type="range" id="elev_lim_control" name="elev_lim_control" 
+             min="0" max="30" value="0" step="1">30</p></p>
+
+        <p>
+          <input type="checkbox" id="vlba" name="vlba">
+          <label for="vlba">VLBA</label>
+
+          <input type="checkbox" id="eht2017" name="eht2017">
+          <label for="eht">EHT (2017)</label>
+
+          <input type="checkbox" id="eht2018" name="eht2018">
+          <label for="eht">EHT (2018-2020)</label>
+
+          <input type="checkbox" id="tanami" name="tanami">
+          <label for="eht">TANAMI</label>
+        </p>
+
+        <div id="map"></div>
+        <button type="button" id="add_tel_button">Add Telescope</button> 
+        <button type="button" id="measure_button">Start Measurement</button>
+
+        <canvas id="canvas_uv"></canvas>
+        <canvas id="canvas_image"></canvas>
+
+      </div>
+    </div>
 
   
         
