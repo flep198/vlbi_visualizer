@@ -22,10 +22,12 @@
     <input type="range" id="time_control" name="time_control" 
          min="0" max="99" value="99" step="1">
     <div class="row">
+
       <div class="col-md-4 text-center">
         <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
-        <svg></svg>
+        <div id="webgl"></div>
         <p><input type="button" id="map-modal-button" value="Teleskope bearbeiten"/></p>
+
       </div>
       <div class="col-md-4 text-center"> 
         <p class="main_page_headlines">Virtuelles Teleskop <input type="image" id="info-modal-button-2" img class="info" src="img/info.svg"/> </p>
@@ -165,7 +167,13 @@
  
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="three.min.js"></script>
+    <script src="Detector.js"></script>    
+    <script src="TrackballControls.js"></script>   
+    <script src="earth.js"></script>
+    <!--
     <script src="globe.js"></script>
+    -->
     <script src="https://code.jquery.com/jquery-2.1.0.min.js" integrity="sha256-8oQ1OnzE2X9v4gpRVRMb1DWHoPHJilbur1LP9ykQ9H0=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="connect_api.js"></script>
     <script type="text/javascript" src="fourier.js"></script>

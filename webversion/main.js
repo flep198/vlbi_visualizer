@@ -43,6 +43,8 @@ var elev_lim=0;
 //update plots according to telescopes and selected time
 function updateUVtracks(){
 
+  //setTimeout(function(){drawGlobe();drawGlobe()},200)
+
   images=[];
 
   //update source declination
@@ -176,7 +178,13 @@ function updateUVtracks(){
     locations.push({"latitude": telescopes[j].getGeometry().lat, "longitude": telescopes[j].getGeometry().lng})
   } 
 
-  RotateGlobe(source[0]+360/n_iter*last_i-45,-source[1]);
+
+  //update Globe plot
+  removeAllMarkers();
+  addMarkers();
+  updateCamera(delta);
+
+  RotateGlobe((source[0]+360/n_iter*last_i-135)/180.0*Math.PI);
  
 }
 
@@ -268,9 +276,12 @@ for (y=0; y < img_data.length; y++){
 
 function addDraggableMarker(map, behavior, latitude, longitude){
 
+  var icon = new H.map.Icon('https://cdn-icons-png.flaticon.com/512/1082/1082826.png',{ size: { w: 56, h: 56 }});
+
   var marker = new H.map.Marker({lat:latitude, lng:longitude}, {
     // mark the object as volatile for the smooth dragging
-    volatility: true
+    volatility: true,
+    icon: icon
   });
   // Ensure that the marker can receive drag events
   marker.draggable = true;
@@ -383,7 +394,7 @@ time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
-  RotateGlobe(source[0]+360/n_iter*indx-45,-source[1]);
+  RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI);
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
@@ -527,8 +538,8 @@ tanami.addEventListener('change', function() {
 changeCheckboxAction();
 
 
-drawGlobe();
-drawGraticule();
+//drawGlobe();
+//drawGraticule();
 
 
 //map modal
@@ -559,3 +570,5 @@ var info_modal_btn3 = document.getElementById("info-modal-button-3");
 var info_modal_span3 = document.getElementById("close-info-modal-3");
 info_modal_btn3.onclick = function() {info_modal3.style.display = "block";}
 info_modal_span3.onclick = function() {info_modal3.style.display = "none";}
+
+
