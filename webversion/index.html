@@ -5,8 +5,8 @@
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
     <title>VLBI-Visualizer</title>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-    <link rel="stylesheet" type="text/css" href="some.css" />  
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="some.css" />  
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
@@ -16,26 +16,34 @@
   <body id="markers-on-the-map">
     <div class="page-header">
         <h1>VLBI-Visualizer</h1>
-        <p>Have fun building your own telescope!</p>
-        <p><input type="button" id="map-modal-button" value="Modify Telescopes"/></p>
     </div>
 
-    <button type="button" id="play_button">Play</button> 
+    <input type="image" id="play_button" img class="play_button" src="img/play_button.svg">
     <input type="range" id="time_control" name="time_control" 
          min="0" max="99" value="99" step="1">
     <div class="row">
-      <div class="col-md-4">
-        <input type="button" id="info-modal-button-1" value="i"/>
+
+      <div class="col-md-4 text-center">
+        <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
         <div id="webgl"></div>
+        <p><input type="button" id="map-modal-button" value="Teleskope bearbeiten"/></p>
+
       </div>
       <div class="col-md-4 text-center"> 
-        <input type="button" id="info-modal-button-2" value="i"/> 
+        <p class="main_page_headlines">Virtuelles Teleskop <input type="image" id="info-modal-button-2" img class="info" src="img/info.svg"/> </p>
         <canvas id="canvas_uv"></canvas>
       </div>
       <div class="col-md-4 text-center">
-        <input type="button" id="info-modal-button-3" value="i"/>
+        <p class="main_page_headlines">Rekonstruiertes Bild <input type="image" id="info-modal-button-3" img class="info" src="img/info.svg"/></p>
         <canvas id="canvas_image"></canvas>
       </div>
+      <div class="play">
+        <p>Beobachtungszeit t</p>
+        <input type="image" id="play_button" img class="play_button" src="img/play_button.svg">
+        <input type="range" id="time_control" name="time_control" 
+             min="0" max="99" value="99" step="1">
+      </div>
+
     </div>
 
     <!-- loading screen -->
@@ -46,7 +54,19 @@
     <div id="info-modal-1" class="info-modal">
       <div class="info-modal-content" id="info-modal-content-1">
         <span class="close" id="close-info-modal-1">&times;</span>
-        This is info about the map
+        <div class="col-md-4 text-center">
+
+
+        </div>
+        <div class="col-md-4 text-center">
+          
+        </div>
+        <div class="col-md-4">
+          <p class="info_text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
+            in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+            mollit anim id est laborum. </p>
+        </div>
       </div>
 
     </div>
@@ -56,7 +76,26 @@
     <div id="info-modal-2" class="info-modal">
       <div class="info-modal-content" id="info-modal-content-2">
         <span class="close" id="close-info-modal-2">&times;</span>
-        This is info about the uv coverage
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <img class="info_left" src="img/Earth_virtuelles_teleskop.png">
+          </div>
+          <div class="col-md-4 text-center">
+            <img class="info_middle" src="img/Dings_virtuelles_Teleskop.png">
+          </div>
+          <div class="col-md-4">
+            <p class="info_text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
+              in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+              mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
+              in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+              mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
+              in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+              mollit anim id est laborum. </p>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -93,22 +132,39 @@
           <label for="eht">TANAMI</label>
         </p>
 
-        <button type="button" id="add_tel_button">Add Telescope</button> 
-        <button type="button" id="measure_button">Start Measurement</button>
-
-        <p>Adjust Source Declination -90<input type="range" id="declination_control" name="declination_control" 
-          min="-90" max="90" value="0" step="1">90</p>
-        <p>Adjust Elevation Limit of Telescopes 0<input type="range" id="elev_lim_control" name="elev_lim_control" 
-          min="0" max="30" value="0" step="1">30</p></p>
-          
-        <canvas id="canvas_uv_map"></canvas>
-        <canvas id="canvas_image_map"></canvas>
-
+        <div class="row">
+          <div class="col-md-1 text-center">
+            <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
+            <p class="image_map_text">Teleskop hinzufügen</p>
+          </div>
+          <div class="col-md-1">
+            <button type="button" id="measure_button">Start Measurement</button>
+          </div>
+          <div class="col-md-2 text-center">
+            <p>Adjust Source Declination -90<input type="range" id="declination_control" name="declination_control" 
+              min="-90" max="90" value="0" step="1">90</p>
+          </div>
+          <div class="col-md-2 text-center">
+            <p>Adjust Elevation Limit of Telescopes 0<input type="range" id="elev_lim_control" name="elev_lim_control" 
+              min="0" max="30" value="0" step="1">30</p></p>
+          </div>
+          <div class="col-md-2 text-center">
+            <div class="Punktquelle_map"></div>
+              <p class="Punktquelle_text">Rekonstruiere <br> diese Punktquelle!</p>
+              <img class= "Punktquelle" src="img/Punktquelle.png">
+          </div>
+          <div class="col-md-2 text-right">
+            <p class="image_map_text">Virtuelles Teleskop</p>
+            <canvas id="canvas_uv_map"></canvas>
+          </div>
+          <div class="col-md-2 text-right">
+            <p class="image_map_text">Rekonstruiertes Bild</p>
+            <canvas id="canvas_image_map"></canvas>
+          </div>
+        </div>
       </div>
     </div>
-
-  
-        
+ 
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="three.min.js"></script>

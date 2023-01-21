@@ -11,13 +11,19 @@ h1 {
   color: white
 }
 
+h3 {
+  color: white;
+  font-size: 12px;
+  text-align: center;
+}
+
 p {
   color: white;
 }
 
 #map {
   width: 100%;
-  height: 600px;
+  height: 60%;
   background: grey;
 
 }
@@ -59,6 +65,62 @@ p {
     border-radius:50%;
     -webkit-animation: spin .8s linear infinite;
     animation: spin .8s linear infinite;
+}
+
+.page-header {
+  margin: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+}
+
+.main_page_headlines {
+  color: white;
+  font-size: 25px;
+  /*font-weight: bold;*/
+}
+
+#map-modal-button {
+  background-color: #00D1FF;
+  color: white;
+  padding: 10px 24px;
+  transition-duration: 0.3s;
+  margin-top: 2em;
+  width: 13em;
+  height: 3em;
+  font-size: 23px;
+}
+
+#map-modal-button:hover {
+  background-color: white;
+  color: #00D1FF;
+}
+
+#canvas_uv {
+  border: 4px solid white;
+}
+
+#canvas_image {
+  border: 4px solid white;
+}
+
+.play {
+  width: 100%;
+  margin: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.play_button {
+  width: 2%;
+  height: auto;
+}
+
+#time_control {
+  width: 40%;
+  margin: 1%;
+  overflow: hidden;
+  background-color: white;
 }
 
  /* The Modal (background) */
@@ -106,6 +168,46 @@ text-decoration: none;
 cursor: pointer;
 } 
 
+.Teleskop {
+  padding-top: 50px;
+  width: 125px;
+  height: auto;
+}
+
+.Teleskop:hover {
+  fill: white;
+}
+
+#canvas_uv_map {
+  width: 90%;
+  height: auto;
+  border: 4px solid white;
+}
+
+#canvas_image_map {
+  width: 90%;
+  height: auto;
+  border: 4px solid white;
+}
+
+.image_map_text {
+  color: white;
+  font-size: 20px;
+  padding-right: 4vw;;
+}
+
+.Punktquelle_text {
+  color: white;
+  font-size: 20px;
+}
+
+.Punkquelle {
+  width: 100%;
+  height: auto;
+  border: 4px solid white !important;
+
+}
+
  /* The Modal (background) */
 .info-modal {
   display: none; /* Hidden by default */
@@ -117,14 +219,32 @@ cursor: pointer;
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(255,255,255,1); /* Black w/ opacity */
+    background-color: rgba(6,12,34,0.7); /* Black w/ opacity */
+    backdrop-filter: blur(20px);
 }
 
 /* Modal Content/Box */
 .info-modal-content {
-background-color: #fefefe;
   margin: 5% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
-  width: 60%; /* Could be more or less, depending on screen size */
+  /*border: 1px solid #888;*/
+  width: 90%; /* Could be more or less, depending on screen size */
+  height: 80%;
+}
+
+.info {
+  width: 25px;
+  height: auto;
+}
+
+.info_left, .info_middle {
+  width: 70%;
+  height: auto;
+  padding-top:30%;
+
+}
+
+.info_text {
+  font-size: 150%;
+  padding-top: 20%;
 }
