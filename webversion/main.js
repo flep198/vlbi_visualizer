@@ -7,6 +7,8 @@
  *                                         default interactions for pan/zoom
  */
 
+
+
 //initial setup
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
@@ -313,14 +315,14 @@ function addDraggableMarker(map, behavior, latitude, longitude){
 return marker;
 }
 
+
+
 /**
  * Boilerplate map initialization code starts below:
  */
-
-
 var defaultLayers = platform.createDefaultLayers();
 
-//Step 2: initialize a map - this map is centered over Boston
+//Step 2: initialize a map
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.vector.normal.map, {
   center: {lat:50.35805, lng:10.0636},
@@ -510,6 +512,7 @@ changeCheckboxAction();
 var map_modal = document.getElementById("map-modal");
 var map_modal_btn = document.getElementById("map-modal-button");
 var map_modal_span = document.getElementById("close-map-modal");
+map_modal.style.display="none";
 map_modal_btn.onclick = function() {map_modal.style.display = "block";}
 map_modal_span.onclick = function() {map_modal.style.display = "none";}
 
