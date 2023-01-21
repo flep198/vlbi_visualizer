@@ -387,7 +387,7 @@ play_button.addEventListener('click', function() {
 play_button.style.display = 'none';
 
 
-
+var time_count = document.getElementById("time_count");
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
@@ -395,6 +395,11 @@ time_control.addEventListener('input', function () {
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
   RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI);
+  //determine time count:
+  decimal_hours=(indx-parseInt(first_i))/n_iter*24;
+  hours=Math.floor(((indx-parseInt(first_i))/n_iter*24));
+  minutes=Math.floor((decimal_hours-hours)*60);
+  time_count.innerText=hours.toString()+":"+minutes.toString();
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
@@ -451,6 +456,17 @@ function addTelescopesToMap(tel_locations){
     telescopes[count_telescopes]=marker_new;
     count_telescopes++;
   };
+}
+
+function removeAllTelescopesFromMap(){
+  for (let i =0;i<checkboxes.length;i++){
+    if (checkboxes[i].box.checked){
+      checkboxes[i].box.click();
+    }
+  }
+  for (let i=0;i<telescopes.length;i++){
+    map.removeObject(telescopes[i]);
+  }
 }
 
 function removeTelescopesFromMap(tel_locations){
@@ -571,4 +587,9 @@ var info_modal_span3 = document.getElementById("close-info-modal-3");
 info_modal_btn3.onclick = function() {info_modal3.style.display = "block";}
 info_modal_span3.onclick = function() {info_modal3.style.display = "none";}
 
+
+var reset_button = document.getElementById("reset_button");
+reset_button.addEventListener('click', function() { 
+  removeAllTelescopesFromMap();
+  }, false);
 
