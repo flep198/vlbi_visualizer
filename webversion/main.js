@@ -43,7 +43,7 @@ var elev_lim=0;
 //update plots according to telescopes and selected time
 function updateUVtracks(){
 
-  setTimeout(function(){drawGlobe();drawGlobe()},200)
+  //setTimeout(function(){drawGlobe();drawGlobe()},200)
 
   images=[];
 
@@ -178,7 +178,13 @@ function updateUVtracks(){
     locations.push({"latitude": telescopes[j].getGeometry().lat, "longitude": telescopes[j].getGeometry().lng})
   } 
 
-  RotateGlobe(source[0]+360/n_iter*last_i-45,-source[1]);
+
+  //update Globe plot
+  removeAllMarkers();
+  addMarkers();
+  updateCamera(delta);
+
+  RotateGlobe((source[0]+360/n_iter*last_i-135)/180.0*Math.PI);
  
 }
 
@@ -388,7 +394,7 @@ time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
-  RotateGlobe(source[0]+360/n_iter*indx-45,-source[1]);
+  RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI);
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
@@ -532,8 +538,8 @@ tanami.addEventListener('change', function() {
 changeCheckboxAction();
 
 
-drawGlobe();
-drawGraticule();
+//drawGlobe();
+//drawGraticule();
 
 
 //map modal
@@ -564,3 +570,5 @@ var info_modal_btn3 = document.getElementById("info-modal-button-3");
 var info_modal_span3 = document.getElementById("close-info-modal-3");
 info_modal_btn3.onclick = function() {info_modal3.style.display = "block";}
 info_modal_span3.onclick = function() {info_modal3.style.display = "none";}
+
+
