@@ -95,7 +95,7 @@ p {
 .close {
   color: rgb(255, 255, 255);
   float: right;
-  font-size: 28px;
+  font-size: 40px !important;
   font-weight: bold;
 }
 

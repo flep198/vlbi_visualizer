@@ -268,9 +268,12 @@ for (y=0; y < img_data.length; y++){
 
 function addDraggableMarker(map, behavior, latitude, longitude){
 
+  var icon = new H.map.Icon('https://cdn-icons-png.flaticon.com/512/1082/1082826.png',{ size: { w: 56, h: 56 }});
+
   var marker = new H.map.Marker({lat:latitude, lng:longitude}, {
     // mark the object as volatile for the smooth dragging
-    volatility: true
+    volatility: true,
+    icon: icon
   });
   // Ensure that the marker can receive drag events
   marker.draggable = true;
