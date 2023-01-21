@@ -7,6 +7,8 @@
  *                                         default interactions for pan/zoom
  */
 
+
+
 //initial setup
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
@@ -150,7 +152,8 @@ function updateUVtracks(){
       u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid));
       }
 
-  DrawUVCanvas(u_v_grid);
+  DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
+  DrawUVCanvas(u_v_grid,ctx_uv_map,canvas_uv_map)
 
   for (ai=first_i;ai<=last_i;ai++){
     DrawFourierCanvas(u_v_grids[ai]);
@@ -158,6 +161,7 @@ function updateUVtracks(){
   
 
   ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
+  ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
 
   //set time control element from start to end of observation
   time_control.min=first_i;
@@ -172,9 +176,6 @@ function updateUVtracks(){
     locations.push({"latitude": telescopes[j].getGeometry().lat, "longitude": telescopes[j].getGeometry().lng})
   } 
 
-
-  drawGlobe();
-  drawGraticule();
   RotateGlobe(source[0]+360/n_iter*last_i-45,-source[1]);
  
 }
@@ -250,8 +251,7 @@ function DrawFourierCanvas(u_v_grid){
 }
 
 
-function DrawUVCanvas(img_data){
-
+function DrawUVCanvas(img_data,ctx_uv,canvas_uv){
 
 // clear the canvas
 ctx_uv.clearRect(0,0,canvas_uv.width,canvas_uv.height);
@@ -313,14 +313,14 @@ function addDraggableMarker(map, behavior, latitude, longitude){
 return marker;
 }
 
+
+
 /**
  * Boilerplate map initialization code starts below:
  */
-
-
 var defaultLayers = platform.createDefaultLayers();
 
-//Step 2: initialize a map - this map is centered over Boston
+//Step 2: initialize a map
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.vector.normal.map, {
   center: {lat:50.35805, lng:10.0636},
@@ -381,7 +381,7 @@ play_button.style.display = 'none';
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
-	DrawUVCanvas(u_v_grids[indx]);
+	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
   RotateGlobe(source[0]+360/n_iter*indx-45,-source[1]);
   }, false);
@@ -393,15 +393,36 @@ var declination_control = document.getElementById("declination_control");
 
 var elev_lim_control = document.getElementById("elev_lim_control");
 
+//image for main page
 var canvas_img=document.getElementById("canvas_image");
 canvas_img.width=imgSize;
 canvas_img.height=imgSize;
 var ctx_image=canvas_img.getContext('2d');
+//initialize canvas as black box
+ctx_image.fillRect(0, 0, imgSize, imgSize);
 
+
+//image for map page
+var canvas_img_map=document.getElementById("canvas_image_map");
+canvas_img_map.width=imgSize;
+canvas_img_map.height=imgSize;
+var ctx_image_map=canvas_img_map.getContext('2d');
+ctx_image_map.fillRect(0, 0, imgSize, imgSize);
+
+//uv plot for main page
 var canvas_uv=document.getElementById("canvas_uv");
 canvas_uv.width=imgSize;
 canvas_uv.height=imgSize;
 var ctx_uv=canvas_uv.getContext('2d');
+ctx_uv.fillRect(0, 0, imgSize, imgSize);
+
+//uv plot for map page
+var canvas_uv_map=document.getElementById("canvas_uv_map");
+canvas_uv_map.width=imgSize;
+canvas_uv_map.height=imgSize;
+var ctx_uv_map=canvas_uv_map.getContext('2d');
+ctx_uv_map.fillRect(0, 0, imgSize, imgSize);
+
 
 var loading_screen = document.getElementById("cover-spin");
 
@@ -506,10 +527,15 @@ tanami.addEventListener('change', function() {
 changeCheckboxAction();
 
 
+drawGlobe();
+drawGraticule();
+
+
 //map modal
 var map_modal = document.getElementById("map-modal");
 var map_modal_btn = document.getElementById("map-modal-button");
 var map_modal_span = document.getElementById("close-map-modal");
+map_modal.style.display="none";
 map_modal_btn.onclick = function() {map_modal.style.display = "block";}
 map_modal_span.onclick = function() {map_modal.style.display = "none";}
 
