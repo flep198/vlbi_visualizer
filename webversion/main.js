@@ -396,7 +396,7 @@ var elev_lim_control = document.getElementById("elev_lim_control");
 var canvas_img=document.getElementById("canvas_image");
 canvas_img.width=imgSize;
 canvas_img.height=imgSize;
-var ctx_image=canvas_image.getContext('2d');
+var ctx_image=canvas_img.getContext('2d');
 
 var canvas_uv=document.getElementById("canvas_uv");
 canvas_uv.width=imgSize;
