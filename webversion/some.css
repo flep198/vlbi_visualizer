@@ -31,7 +31,7 @@ p {
     position:fixed;
     width:100%;
     left:0;right:0;top:0;bottom:0;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(6,12,34,0.7);
     z-index:9999;
     display:none;
 }
@@ -53,7 +53,7 @@ p {
     left:48%;top:40%;
     width:40px;height:40px;
     border-style:solid;
-    border-color:black;
+    border-color:white;
     border-top-color:transparent;
     border-width: 4px;
     border-radius:50%;
@@ -73,20 +73,27 @@ p {
   overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(255,255,255,1); /* Black w/ opacity */
+  background: url(img/Nachthimmel_1920x1356.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 /* Modal Content/Box */
 .map-modal-content {
-background-color: #fefefe;
-  margin: 5% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%; /* Could be more or less, depending on screen size */
+  /*margin: 5% auto; /* 15% from the top and centered */
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  /*border: 1px solid white;*/
+  width: 100%; /* Could be more or less, depending on screen size */
+  height: 100%;
 }
 
 /* The Close Button */
 .close {
-  color: #aaa;
+  color: rgb(255, 255, 255);
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -94,7 +101,7 @@ background-color: #fefefe;
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: rgb(255, 255, 255);
 text-decoration: none;
 cursor: pointer;
 } 
