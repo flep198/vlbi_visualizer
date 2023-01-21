@@ -43,6 +43,8 @@ var elev_lim=0;
 //update plots according to telescopes and selected time
 function updateUVtracks(){
 
+  setTimeout(function(){drawGlobe();drawGlobe()},200)
+
   images=[];
 
   //update source declination
