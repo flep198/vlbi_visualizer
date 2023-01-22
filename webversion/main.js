@@ -13,7 +13,7 @@
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
-let n_iter=50; //number of iterations
+let n_iter=72; //number of iterations
 let cc = 9e-6 //contrast constant
 
 
@@ -276,7 +276,7 @@ for (y=0; y < img_data.length; y++){
 
 function addDraggableMarker(map, behavior, latitude, longitude){
 
-  var icon = new H.map.Icon('https://cdn-icons-png.flaticon.com/512/1082/1082826.png',{ size: { w: 56, h: 56 }});
+  var icon = new H.map.Icon('img/Teleskop.svg',{ size: { w: 56, h: 56 }});
 
   var marker = new H.map.Marker({lat:latitude, lng:longitude}, {
     // mark the object as volatile for the smooth dragging

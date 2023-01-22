@@ -12,6 +12,8 @@
 
 	var scene = new THREE.Scene();
 
+	var scene2 = new THREE.Scene();
+
 	var camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 1000);
 	camera.position.z=1.5;
 	
@@ -25,6 +27,7 @@
 
 	var renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setSize(width, height);
+	renderer.autoClear = false;
 
 	scene.add(new THREE.AmbientLight(0x333333));
 
@@ -36,15 +39,30 @@
 	sphere.rotation.y = rotation; 
 	scene.add(sphere);
 
+	var sphere2 = createSphere(0.000000001, segments);
+	sphere2.rotation.y = rotation; 
+	scene2.add(sphere2);
+
 	var clouds = createClouds(radius, segments);
 	clouds.rotation.y = rotation;
-	scene.add(clouds)
+	scene.add(clouds);
 
 
 	function addMarkers(){
+
+		//create marker
 		for (let c=0;c<locations.length;c++){
 			createMarker(radius,locations[c].longitude,locations[c].latitude);
 		}
+
+		//create baselines
+		var baselineLocations=[];
+		for (i=0;i<(locations.length-1);i++){
+            for (j=i+1;j<locations.length;j++){
+            	createBaseline(radius,locations[i].longitude,locations[i].latitude,locations[j].longitude,locations[j].latitude);
+            }
+        }              
+        
 	}
 
 	function removeAllMarkers(){
@@ -63,6 +81,7 @@
 	function RotateGlobe(rad_value){
 		sphere.rotation.y=rad_value;
 		clouds.rotation.y=rad_value;
+		sphere2.rotation.y=rad_value;
 	}
 
 	function render() {
@@ -70,7 +89,10 @@
 		//sphere.rotation.y +=0.005; //angle in rad
 		//marker_new.rotation.y +=0.005;
 		requestAnimationFrame(render);
-		renderer.render(scene, camera);
+		renderer.clear();                     // clear buffers
+		renderer.render( scene, camera );     // render scene 1
+		renderer.clear( false, true, false );                // clear depth buffer
+		renderer.render( scene2, camera );
 	}
 
 	function createSphere(radius, segments) {
@@ -127,4 +149,32 @@
 
 		marker.rotation.y = rotation;
 		sphere.add(marker);
+	}
+
+		function createBaseline(radius,lon,lat,lon2,lat2){
+
+		  
+    	var phi1   = (90-lat)*(Math.PI/180);
+    	var theta1 = (lon+180)*(Math.PI/180)+3/32*Math.PI;
+
+    	x1 = -(radius * Math.sin(phi1)*Math.cos(theta1));
+    	z1 = (radius * Math.sin(phi1)*Math.sin(theta1));
+    	y1 = (radius * Math.cos(phi1));
+
+
+    	var phi2   = (90-lat2)*(Math.PI/180);
+    	var theta2 = (lon2+180)*(Math.PI/180)+3/32*Math.PI;
+
+    	x2 = -(radius * Math.sin(phi2)*Math.cos(theta2));
+    	z2 = (radius * Math.sin(phi2)*Math.sin(theta2));
+    	y2 = (radius * Math.cos(phi2));
+
+		const material = new THREE.LineBasicMaterial( { color: 0x0000ff, depthTest: false} );
+		const geometry = new THREE.Geometry()
+		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ) );
+		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ) );
+		const line = new THREE.Line( geometry, material );
+
+		line.rotation.y = rotation;
+		sphere2.add(line);
 	}
