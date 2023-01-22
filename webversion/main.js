@@ -176,6 +176,7 @@ function updateUVtracks(){
   time_control.max=last_i.toString();
   time_control.value=last_i.toString();
   time_control.style.display = '';
+  time_text.style.display = '';
   play_button.style.display = '';
 
   //Draw 3D globe
@@ -394,6 +395,7 @@ play_button.style.display = 'none';
 
 
 var time_count = document.getElementById("time_count");
+var time_text = document.getElementById("Beobachtungszeit");
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
@@ -409,7 +411,7 @@ time_control.addEventListener('input', function () {
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
-  
+time_text.style.display = 'none';
 
 var declination_control = document.getElementById("declination_control");
 
