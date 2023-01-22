@@ -42,6 +42,13 @@ p {
     display:none;
 }
 
+.row {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+  max-width: 100% !important;
+  border: 0px !important;
+}
+
 @-webkit-keyframes spin {
 	from {-webkit-transform:rotate(0deg);}
 	to {-webkit-transform:rotate(360deg);}
@@ -82,12 +89,13 @@ p {
 #map-modal-button {
   background-color: #00D1FF;
   color: white;
-  padding: 10px 24px;
+  padding: 10px 24px 10px 24px;
   transition-duration: 0.3s;
-  margin-top: 2em;
+  margin-top: 1em;
   width: 13em;
   height: 3em;
-  font-size: 23px;
+  font-size: 17px;
+
 }
 
 #map-modal-button:hover {
@@ -105,22 +113,26 @@ p {
 
 .play {
   width: 100%;
-  margin: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .play_button {
-  width: 2%;
+  width: 5%;
   height: auto;
 }
 
 #time_control {
-  width: 40%;
+  width: 70%;
   margin: 1%;
   overflow: hidden;
   background-color: white;
+}
+
+.Beobachtungszeit {
+  font-size: 20px;
+  margin-left: 12%;
 }
 
  /* The Modal (background) */
@@ -175,7 +187,30 @@ cursor: pointer;
 }
 
 .Teleskop:hover {
-  fill: white;
+  fill: white !important;
+}
+
+#measure_button, #reset_button {
+  background-color: #00D1FF;
+  color: white;
+  padding: 10px 24px 10px 24px;
+  transition-duration: 0.3s;
+  margin-top: 50px;
+  font-size: 17px;
+}
+
+#measure_button:hover, #reset_button:hover {
+  background-color: white;
+  color: #00D1FF ;
+}
+
+
+.source_declination_image {
+  width: 70%;
+}
+
+.elevation_limit {
+  display: none;
 }
 
 #canvas_uv_map {
@@ -193,16 +228,18 @@ cursor: pointer;
 .image_map_text {
   color: white;
   font-size: 20px;
-  padding-right: 4vw;;
+  text-align: center;
+  padding-left: 30px;
 }
 
 .Punktquelle_text {
   color: white;
   font-size: 20px;
+  text-align: center !important;
 }
 
-.Punkquelle {
-  width: 100%;
+.Punktquelle {
+  width: 50%;
   height: auto;
   border: 4px solid white !important;
 
