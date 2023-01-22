@@ -169,11 +169,11 @@
     	z2 = (radius * Math.sin(phi2)*Math.sin(theta2));
     	y2 = (radius * Math.cos(phi2));
 
-		const material = new THREE.LineBasicMaterial( { color: 0x0000ff, depthTest: false} );
+		const material = new THREE.LineBasicMaterial( { color: 0x0000ff,linewidth: 0, depthTest: false} );
 		const geometry = new THREE.Geometry()
-		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ) );
-		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ) );
-		const line = new THREE.Line( geometry, material );
+		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ));
+		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ));
+		const line = new THREE.Line(geometry, material);
 
 		line.rotation.y = rotation;
 		sphere2.add(line);
