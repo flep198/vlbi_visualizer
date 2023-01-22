@@ -39,7 +39,9 @@ let u_v_grids=[];
 let images=[];
 
 var elev_lim=0;
- 
+
+let tel_visibles=[];
+
 //update plots according to telescopes and selected time
 function updateUVtracks(){
 
@@ -86,6 +88,8 @@ function updateUVtracks(){
 
   first_i=0;
   last_i=0;
+
+  tel_visibles=[];
   
   for (let i = 0; i < n_iter; i++) {
 
@@ -111,6 +115,8 @@ function updateUVtracks(){
               tel_visible[j]=true;
           }       
      }
+
+     tel_visibles.push(tel_visible);
     
      
       let baseline_count=0
@@ -184,7 +190,7 @@ function updateUVtracks(){
   addMarkers();
   updateCamera(delta);
 
-  RotateGlobe((source[0]+360/n_iter*last_i-135)/180.0*Math.PI);
+  RotateGlobe((source[0]+360/n_iter*last_i-135)/180.0*Math.PI,last_i);
  
 }
 
@@ -394,7 +400,7 @@ time_control.addEventListener('input', function () {
   var indx = Math.floor(time_control.value);
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
-  RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI);
+  RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI,indx);
   //determine time count:
   decimal_hours=(indx-parseInt(first_i))/n_iter*24;
   hours=Math.floor(((indx-parseInt(first_i))/n_iter*24));

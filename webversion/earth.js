@@ -50,11 +50,6 @@
 
 	function addMarkers(){
 
-		//create marker
-		for (let c=0;c<locations.length;c++){
-			createMarker(radius,locations[c].longitude,locations[c].latitude);
-		}
-
 		//create baselines
 		var baselineLocations=[];
 		for (i=0;i<(locations.length-1);i++){
@@ -62,7 +57,11 @@
             	createBaseline(radius,locations[i].longitude,locations[i].latitude,locations[j].longitude,locations[j].latitude);
             }
         }              
-        
+       	
+       	//create marker
+		for (let c=0;c<locations.length;c++){
+			createMarker(radius,locations[c].longitude,locations[c].latitude);
+		}
 	}
 
 	function removeAllMarkers(){
@@ -78,7 +77,43 @@
 
 	render();
 
-	function RotateGlobe(rad_value){
+	function RotateGlobe(rad_value,indx){
+
+		//check which telescopes and baselines will be visible
+		var TelChilds=[];
+		var BaselineChilds=[];
+
+		sphere2.traverse ( function (child) {
+    	if (child instanceof THREE.Mesh) {
+      		TelChilds.push(child);
+    	}else if (child instanceof THREE.Line){
+    		BaselineChilds.push(child);
+    		}
+  		});
+
+		var count_indx=0;
+  		for (i=0;i<locations.length-1;i++){
+  			for(k=i+1;k<locations.length;k++){
+  				if (tel_visibles[indx][i] && tel_visibles[indx][k]){
+  					BaselineChilds[count_indx].visible=true;
+  				} else {
+  					BaselineChilds[count_indx].visible=false;
+  				}
+  				count_indx++;
+  			}
+  		}
+
+  		for (i=0;i<locations.length;i++){
+  			if(tel_visibles[indx][i]){
+  				TelChilds[i+1].visible=true;
+  			} else {
+  				TelChilds[i+1].visible=false;
+  			}
+  		}
+
+  		
+
+		//do rotation
 		sphere.rotation.y=rad_value;
 		clouds.rotation.y=rad_value;
 		sphere2.rotation.y=rad_value;
@@ -148,7 +183,7 @@
 		marker.position.z = z;
 
 		marker.rotation.y = rotation;
-		sphere.add(marker);
+		sphere2.add(marker);
 	}
 
 		function createBaseline(radius,lon,lat,lon2,lat2){
@@ -169,7 +204,7 @@
     	z2 = (radius * Math.sin(phi2)*Math.sin(theta2));
     	y2 = (radius * Math.cos(phi2));
 
-		const material = new THREE.LineBasicMaterial( { color: 0x0000ff,linewidth: 0, depthTest: false} );
+		const material = new THREE.LineBasicMaterial( { color: 0x0000ff,linewidth: 5, depthTest: false} );
 		const geometry = new THREE.Geometry()
 		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ));
 		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ));
@@ -177,4 +212,5 @@
 
 		line.rotation.y = rotation;
 		sphere2.add(line);
+
 	}
