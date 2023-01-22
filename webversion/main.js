@@ -42,6 +42,9 @@ var elev_lim=0;
 
 let tel_visibles=[];
 
+//progress bar
+var progress_bar = document.getElementById("myBar");
+
 //update plots according to telescopes and selected time
 function updateUVtracks(){
 
@@ -90,10 +93,12 @@ function updateUVtracks(){
   last_i=0;
 
   tel_visibles=[];
+
   
   for (let i = 0; i < n_iter; i++) {
 
     let t=360/n_iter*i;
+
     
     //convert all telescope positions to cartesian coordinates
     let tels=[];
@@ -163,13 +168,21 @@ function updateUVtracks(){
   DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
   DrawUVCanvas(u_v_grid,ctx_uv_map,canvas_uv_map)
 
-  for (ai=first_i;ai<=last_i;ai++){
-    DrawFourierCanvas(u_v_grids[ai]);
+  for (let aidx=first_i;aidx<=last_i;aidx++){
+      setTimeout(function(){
+        progress_bar.style.width=Math.floor((aidx-first_i)/(last_i-first_i)*100) + "%";
+        DrawFourierCanvas(u_v_grids[aidx]);
+        if (aidx==last_i-1){
+          setTimeout(function(){
+            loading_screen.style.display = 'none';
+            ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
+            ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
+          },10000);
+        }
+      },aidx-first_i*10000);
   };
-  
 
-  ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
-  ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
+  
 
   //set time control element from start to end of observation
   time_control.min=first_i;
@@ -193,7 +206,7 @@ function updateUVtracks(){
 
   RotateGlobe((source[0]+360/n_iter*last_i-135)/180.0*Math.PI,last_i);
  
-}
+ }
 
 
 function DrawFourierCanvas(u_v_grid){
@@ -375,7 +388,6 @@ measure_button.addEventListener('click', function() {
   setTimeout(function(){
     updateUVtracks();
     //turn off loading screen
-    loading_screen.style.display = 'none';
   }, 20);
 }, false);
 
