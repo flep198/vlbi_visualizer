@@ -179,7 +179,7 @@ function updateUVtracks(){
             ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
           },10000);
         }
-      },aidx-first_i*10000);
+      },aidx-first_i*10);
   };
 
   
