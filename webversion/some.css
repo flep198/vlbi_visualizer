@@ -130,7 +130,7 @@ p {
   background-color: white;
 }
 
-.Beobachtungszeit {
+#time_count {
   font-size: 20px;
   margin-left: 12%;
 }

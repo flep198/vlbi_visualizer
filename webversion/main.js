@@ -172,12 +172,13 @@ function updateUVtracks(){
       setTimeout(function(){
         progress_bar.style.width=Math.floor((aidx-first_i)/(last_i-first_i)*100) + "%";
         DrawFourierCanvas(u_v_grids[aidx]);
-        if (aidx==last_i-1){
+        if (aidx==last_i){
           setTimeout(function(){
             loading_screen.style.display = 'none';
+            progress_bar.style.width = "0%";
             ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
             ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
-          },10000);
+          },1000);
         }
       },aidx-first_i*10);
   };
@@ -189,7 +190,6 @@ function updateUVtracks(){
   time_control.max=last_i.toString();
   time_control.value=last_i.toString();
   time_control.style.display = '';
-  time_text.style.display = '';
   play_button.style.display = '';
 
   //Draw 3D globe
@@ -407,7 +407,6 @@ play_button.style.display = 'none';
 
 
 var time_count = document.getElementById("time_count");
-var time_text = document.getElementById("Beobachtungszeit");
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
@@ -419,11 +418,10 @@ time_control.addEventListener('input', function () {
   decimal_hours=(indx-parseInt(first_i))/n_iter*24;
   hours=Math.floor(((indx-parseInt(first_i))/n_iter*24));
   minutes=Math.floor((decimal_hours-hours)*60);
-  time_count.innerText=hours.toString()+":"+minutes.toString();
+  time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
   }, false);
 time_control.step=n_iter/100;
 time_control.style.display = 'none';
-time_text.style.display = 'none';
 
 var declination_control = document.getElementById("declination_control");
 
