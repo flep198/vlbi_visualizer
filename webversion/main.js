@@ -14,7 +14,7 @@ let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
 let n_iter=72; //number of iterations
-let cc = 9e-6 //contrast constant
+let cc = 9e-5 //contrast constant
 
 
 function Pol2Cart(r,phi,delta){
@@ -24,6 +24,9 @@ let z = r*Math.sin(delta/180*Math.PI);
 
 return [x,y,z];
 }
+
+//used to save grey scale values of true image fourier transform
+var h_ft_image=[];
 
 //Globe Telescope Locations
 let locations = [];
@@ -216,7 +219,7 @@ function DrawFourierCanvas(u_v_grid){
   var h_es=[];
   for (var ai=0; ai < imgSize; ai++){
     for (var ak=0; ak < imgSize; ak++){
-      h_es.push(u_v_grid[ai][ak]*255);
+      h_es.push(u_v_grid[ai][ak]);
     };    
   };
 
@@ -456,6 +459,106 @@ canvas_uv_map.width=imgSize;
 canvas_uv_map.height=imgSize;
 var ctx_uv_map=canvas_uv_map.getContext('2d');
 ctx_uv_map.fillRect(0, 0, imgSize, imgSize);
+
+//real image plot
+var canvas_real_image=document.getElementById("canvas_real_image");
+canvas_real_image.width=imgSize;
+canvas_real_image.height=imgSize;
+var ctx_real_image=canvas_real_image.getContext("2d");
+
+//image loader
+var image = document.getElementById('image');
+if (image) {
+  image.addEventListener('change', function () {
+  if (this.files && this.files[0]) {
+    var fr = new FileReader();
+    fr.onload = function (ev) {
+    var img = new Image();
+    img.onload = function () {
+    ctx_real_image.drawImage(img, 0, 0, imgSize, imgSize);
+    var imageData = ctx_real_image.getImageData(0, 0, imgSize, imgSize);
+    DrawFourierImage(imageData);
+    };
+    img.src = ev.target.result;
+    };
+    fr.readAsDataURL(this.files[0]);
+  }
+
+}, false);}
+
+function DrawFourierImage(imageData){
+//calculate Fourier Transform of image
+
+    var h_image=[];
+    for (var ai = 0; ai < imageData.data.length; ai+=4) {
+      // greyscale, so you only need every 4th value
+      h_image.push(imageData.data[ai]);
+    }
+
+    h2=function(n,m){
+      if (arguments.length ===0) return h_image;
+      return h_image[idx];
+    };
+
+    var h2_hats = [];
+    Fourier.transform(h2(), h2_hats);
+    h2_hats = Fourier.shift(h2_hats, [imgSize,imgSize]);
+
+    // get the largest magnitude
+    var maxMagnitude = 0;
+    for (var ai = 0; ai < h2_hats.length; ai++) {
+      var mag = h2_hats[ai].magnitude();
+      if (mag > maxMagnitude) {
+        maxMagnitude = mag;
+      };
+    };
+
+    // store them in a nice function to match the math
+    $h2 = function(k, l) {
+      if (arguments.length === 0) return h2_hats;
+      //flip second part of the fourier image (for some reason this needs to be done because fourier.js is wrong)
+      if (l<imgSize/2){
+        var idx = k*imgSize + l;
+      } else {
+        if(k==511){
+          k=-1;
+        };
+        var idx = (imgSize-k-2)*imgSize + l;
+      }
+      return h2_hats[idx];
+    };
+
+    // clear the canvas
+    ctx_real_image.clearRect(0,0,canvas_real_image.width,canvas_real_image.height);
+
+    // draw the pixels
+    var currImageData = ctx_real_image.getImageData(
+      0, 0, imgSize, imgSize
+    );
+    var logOfMaxMag = Math.log(cc*maxMagnitude+1);
+    for (var k = 0; k < imgSize; k++) {
+      for (var l = 0; l < imgSize; l++) {
+        var idxInPixels = 4*(imgSize*k + l);
+        currImageData.data[idxInPixels+3] = 255; // full alpha
+        var color = Math.log(cc*$h2(l, k).magnitude()+1);
+        color = Math.round(255*(color/logOfMaxMag));
+        // RGB are the same -> gray
+        for (var c = 0; c < 3; c++) { // lol c++
+          currImageData.data[idxInPixels+c] = color;
+        }
+      }
+    }
+
+
+    h_ft_image=[];
+    for (var ak = 0; ak < currImageData.data.length; ak+=4) {
+      // greyscale, so you only need every 4th value
+      h_ft_image.push(currImageData.data[ak]);
+    }
+
+    ctx_real_image.putImageData(imageData, 0, 0);
+
+}
 
 
 var loading_screen = document.getElementById("cover-spin");

@@ -151,8 +151,10 @@
               <img class="source_declination_image" src="img/source_declination.svg"> 
             </div>
             <div class="col-md-2 text-center">
+              <input type="file" name="photo" id="image" accept="image/*">
                 <p class="Punktquelle_text">Rekonstruiere <br> diese Punktquelle!</p>
-                <img class= "Punktquelle" src="img/Punktquelle.png">
+                <canvas id="canvas_real_image" class="Punktquelle"></canvas>
+                <!--<img class= "Punktquelle" src="img/Punktquelle.png">-->
             </div>
             <div class="col-md-2 text-right">
               <p class="image_map_text">Virtuelles Teleskop</p>
