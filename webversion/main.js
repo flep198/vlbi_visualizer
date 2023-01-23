@@ -14,7 +14,7 @@ let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
 let n_iter=72; //number of iterations
-let cc = 9e-5 //contrast constant
+let cc = 9e-6 //contrast constant
 
 
 function Pol2Cart(r,phi,delta){
@@ -214,46 +214,40 @@ function updateUVtracks(){
 
 function DrawFourierCanvas(u_v_grid){
 
-  //calculate the Fourier Transform
-
-  var h_es=[];
-  for (var ai=0; ai < imgSize; ai++){
-    for (var ak=0; ak < imgSize; ak++){
-      h_es.push(u_v_grid[ai][ak]);
+  var h_primes = [];
+  var h_hats = $h2();
+  var h_hats_new=[];
+  var indx=0;
+  for (let ai=0; ai < imgSize; ai++){
+    for (let ak=0; ak < imgSize; ak++){
+      if(u_v_grid[ak][ai]==1){
+        h_hats_new.push(h_hats[indx].times(1));
+      } else {
+        h_hats_new.push(h_hats[indx].times(0));
+      }
+      indx++;
     };    
   };
+  h_hats = h_hats_new;
 
-  h=function(n,m){
-    if (arguments.length ===0) return h_es;
-    return h_es[idx];
-  };
-
-  var h_hats = [];
-  Fourier.transform(h(), h_hats);
-  h_hats = Fourier.shift(h_hats, [imgSize,imgSize]);
+  h_hats = Fourier.unshift(h_hats, [imgSize,imgSize]);
+  Fourier.invert(h_hats, h_primes);
 
   // get the largest magnitude
   var maxMagnitude = 0;
-  for (var ai = 0; ai < h_hats.length; ai++) {
-    var mag = h_hats[ai].magnitude();
+  for (let aj = 0; aj < h_primes.length; aj++) {
+    var mag = h_primes[aj];
     if (mag > maxMagnitude) {
       maxMagnitude = mag;
     };
   };
 
   // store them in a nice function to match the math
-  $h = function(k, l) {
-    if (arguments.length === 0) return h_hats;
-    //flip second part of the fourier image (for some reason this needs to be done because fourier.js is wrong)
-    if (l<imgSize/2){
-      var idx = k*imgSize + l;
-    } else {
-      if(k==511){
-        k=-1;
-      };
-      var idx = (imgSize-k-2)*imgSize + l;
-    }
-    return h_hats[idx];
+  h_ = function(n, m) {
+    if (arguments.length === 0) return h_primes;
+
+    var idx = n*imgSize + m;
+    return h_primes[idx];
   };
 
   // clear the canvas
@@ -264,21 +258,29 @@ function DrawFourierCanvas(u_v_grid){
     0, 0, imgSize, imgSize
   );
   var logOfMaxMag = Math.log(cc*maxMagnitude+1);
-  for (var k = 0; k < imgSize; k++) {
-    for (var l = 0; l < imgSize; l++) {
+  for (let k = 0; k < imgSize; k++) {
+    for (let l = 0; l < imgSize; l++) {
       var idxInPixels = 4*(imgSize*k + l);
       currImageData.data[idxInPixels+3] = 255; // full alpha
-      var color = Math.log(cc*$h(l, k).magnitude()+1);
+      var color = Math.log(cc*h_(k, l)+1);
       color = Math.round(255*(color/logOfMaxMag));
       // RGB are the same -> gray
-      for (var c = 0; c < 3; c++) { // lol c++
+      for (let c = 0; c < 3; c++) { // lol c++
         currImageData.data[idxInPixels+c] = color;
       }
     }
   }
   
   images.push(currImageData);
+  DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
+  ctx_image.putImageData(currImageData);
 
+}
+
+
+function round(n, places) {
+  var mult = Math.pow(10, places);
+  return Math.round(mult*n)/mult;
 }
 
 
@@ -500,6 +502,7 @@ function DrawFourierImage(imageData){
       return h_image[idx];
     };
 
+
     var h2_hats = [];
     Fourier.transform(h2(), h2_hats);
     h2_hats = Fourier.shift(h2_hats, [imgSize,imgSize]);
@@ -516,47 +519,13 @@ function DrawFourierImage(imageData){
     // store them in a nice function to match the math
     $h2 = function(k, l) {
       if (arguments.length === 0) return h2_hats;
-      //flip second part of the fourier image (for some reason this needs to be done because fourier.js is wrong)
-      if (l<imgSize/2){
-        var idx = k*imgSize + l;
-      } else {
-        if(k==511){
-          k=-1;
-        };
-        var idx = (imgSize-k-2)*imgSize + l;
-      }
+      var idx = k*imgSize + l;
       return h2_hats[idx];
     };
 
-    // clear the canvas
-    ctx_real_image.clearRect(0,0,canvas_real_image.width,canvas_real_image.height);
-
-    // draw the pixels
-    var currImageData = ctx_real_image.getImageData(
-      0, 0, imgSize, imgSize
-    );
-    var logOfMaxMag = Math.log(cc*maxMagnitude+1);
-    for (var k = 0; k < imgSize; k++) {
-      for (var l = 0; l < imgSize; l++) {
-        var idxInPixels = 4*(imgSize*k + l);
-        currImageData.data[idxInPixels+3] = 255; // full alpha
-        var color = Math.log(cc*$h2(l, k).magnitude()+1);
-        color = Math.round(255*(color/logOfMaxMag));
-        // RGB are the same -> gray
-        for (var c = 0; c < 3; c++) { // lol c++
-          currImageData.data[idxInPixels+c] = color;
-        }
-      }
-    }
-
-
-    h_ft_image=[];
-    for (var ak = 0; ak < currImageData.data.length; ak+=4) {
-      // greyscale, so you only need every 4th value
-      h_ft_image.push(currImageData.data[ak]);
-    }
 
     ctx_real_image.putImageData(imageData, 0, 0);
+
 
 }
 
@@ -614,9 +583,9 @@ function changeCheckboxAction(){
 
   preset_locations=[];
 
-  for(ai=0;ai<checkboxes.length;ai++){
+  for(let ai=0;ai<checkboxes.length;ai++){
     if(checkboxes[ai].box.checked){
-      for(ak=0;ak<checkboxes[ai].locations.length;ak++){
+      for(let ak=0;ak<checkboxes[ai].locations.length;ak++){
         //append all Telescopes, but only once
         function checkTel(telescope) {
           return telescope[0]==checkboxes[ai].locations[ak][0] && telescope[1]==checkboxes[ai].locations[ak][1];
@@ -713,4 +682,6 @@ var reset_button = document.getElementById("reset_button");
 reset_button.addEventListener('click', function() { 
   removeAllTelescopesFromMap();
   }, false);
+
+
 
