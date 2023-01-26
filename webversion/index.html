@@ -24,8 +24,6 @@
         <div class="col-md-4 text-center align-middle">
           <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
           <div id="webgl"></div>
-
-
         </div>
         <div class="col-md-4 text-center"> 
           <p class="main_page_headlines">Virtuelles Teleskop <input type="image" id="info-modal-button-2" img class="info" src="img/info.svg"/> </p>
@@ -151,8 +149,17 @@
               <img class="source_declination_image" src="img/source_declination.svg"> 
             </div>
             <div class="col-md-2 text-center">
+              <select id="image_select" name="image_select">
+                <option selected value="img/Punktquelle.png">Punktquelle</option>
+                <option value="img/ehtS*.jpg">SgrA*</option>
+                <option value="img/ehtM87.jpg">M87</option>
+                <option value="img/HerculesA.jpg">Hercules A</option>
+                <option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>
+              </select>
+              <!--<input type="file" name="photo" id="image" accept="image/*">-->
                 <p class="Punktquelle_text">Rekonstruiere <br> diese Punktquelle!</p>
-                <img class= "Punktquelle" src="img/Punktquelle.png">
+                <canvas id="canvas_real_image" class="Punktquelle"></canvas>
+                <!--<img class= "Punktquelle" src="img/Punktquelle.png">-->
             </div>
             <div class="col-md-2 text-right">
               <p class="image_map_text">Virtuelles Teleskop</p>
@@ -164,7 +171,7 @@
             </div>
           </div>
           <p class="elevation_limit">Adjust Elevation Limit of Telescopes </br> 0 <input type="range" id="elev_lim_control" name="elev_lim_control" 
-            min="0" max="30" value="0" step="1"> 30</p></p>
+            min="0" max="30" value="5" step="1"> 30</p></p>
         </div>
       </div>
   
