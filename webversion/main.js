@@ -13,7 +13,7 @@
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
-let n_iter=72; //number of iterations
+let n_iter=73; //number of iterations
 let cc = 9e-6 //contrast constant
 
 
@@ -51,7 +51,6 @@ var progress_bar = document.getElementById("myBar");
 //update plots according to telescopes and selected time
 function updateUVtracks(){
 
-  //setTimeout(function(){drawGlobe();drawGlobe()},200)
 
   images=[];
 
@@ -96,6 +95,10 @@ function updateUVtracks(){
   last_i=0;
 
   tel_visibles=[];
+
+  //start with empty image first
+  u_v_tracks[i]=JSON.parse(JSON.stringify(u_v_track));
+  u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid));
 
   
   for (let i = 0; i < n_iter; i++) {
@@ -178,12 +181,13 @@ function updateUVtracks(){
         if (aidx==last_i){
           setTimeout(function(){
             loading_screen.style.display = 'none';
+            map_modal.style.display = "none";
             progress_bar.style.width = "0%";
             ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
             ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
           },1000);
         }
-      },aidx-first_i*10);
+      },(aidx-first_i)*10);
   };
 
   
@@ -272,8 +276,6 @@ function DrawFourierCanvas(u_v_grid){
   }
   
   images.push(currImageData);
-  DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
-  ctx_image.putImageData(currImageData);
 
 }
 
@@ -388,12 +390,16 @@ add_tel_button.addEventListener('click', function() {
 //add event listener to Measure button
 var measure_button = document.getElementById("measure_button");
 measure_button.addEventListener('click', function() { 
-  //turn on loading screen
-  loading_screen.style.display = 'block';
-  setTimeout(function(){
-    updateUVtracks();
-    //turn off loading screen
-  }, 20);
+  if (telescopes.length<2){
+    alert("Please select at least 2 telescopes!");
+  }else{
+    //turn on loading screen
+    loading_screen.style.display = 'block';
+    setTimeout(function(){
+      updateUVtracks();
+      //turn off loading screen
+    }, 60);
+  }
 }, false);
 
 //add event listener to Play button
@@ -404,7 +410,7 @@ play_button.addEventListener('click', function() {
     setTimeout(function(){
       time_control.value=idx.toString();
       time_control.dispatchEvent(new Event('input'));
-    }, count*250);
+    }, count*300);
     count++;
   }
 }, false);
@@ -415,17 +421,17 @@ var time_count = document.getElementById("time_count");
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
-  var indx = Math.floor(time_control.value);
+  var indx = Math.round(time_control.value);
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
   RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI,indx);
   //determine time count:
-  decimal_hours=(indx-parseInt(first_i))/n_iter*24;
-  hours=Math.floor(((indx-parseInt(first_i))/n_iter*24));
+  decimal_hours=(indx-parseInt(first_i))/(n_iter-1)*24;
+  hours=Math.floor(((indx-parseInt(first_i))/(n_iter-1)*24));
   minutes=Math.floor((decimal_hours-hours)*60);
   time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
   }, false);
-time_control.step=n_iter/100;
+time_control.step=0.1;
 time_control.style.display = 'none';
 
 var declination_control = document.getElementById("declination_control");
@@ -467,6 +473,21 @@ var canvas_real_image=document.getElementById("canvas_real_image");
 canvas_real_image.width=imgSize;
 canvas_real_image.height=imgSize;
 var ctx_real_image=canvas_real_image.getContext("2d");
+const default_img = new Image(); // Create new img element
+default_img.addEventListener(
+  "load",
+  () => {
+    ctx_real_image.drawImage(default_img,0,0,imgSize,imgSize);
+    var imageData = ctx_real_image.getImageData(0, 0, imgSize, imgSize);
+    DrawFourierImage(imageData);
+  },
+  false
+);
+default_img.src = "img/ehtM87.jpg"; // Set source path
+
+
+
+
 
 //image loader
 var image = document.getElementById('image');
@@ -644,10 +665,6 @@ tanami.addEventListener('change', function() {
 changeCheckboxAction();
 
 
-//drawGlobe();
-//drawGraticule();
-
-
 //map modal
 var map_modal = document.getElementById("map-modal");
 var map_modal_btn = document.getElementById("map-modal-button");
@@ -682,6 +699,8 @@ var reset_button = document.getElementById("reset_button");
 reset_button.addEventListener('click', function() { 
   removeAllTelescopesFromMap();
   }, false);
+
+
 
 
 
