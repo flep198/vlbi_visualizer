@@ -11,10 +11,12 @@
 
 //initial setup
 let r_e=6731; //Earth Radius in Kilometers
-let imgSize=512; //pixelsize of image
+let imgSize=256; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
-let n_iter=73; //number of iterations
+let n_iter=48; //number of iterations for fourier transform
 let cc = 9e-6 //contrast constant
+let n_iter_times=15; //n_iter*n_iter_times samples of the uv coverage will be calculated, has to be smaller than n_iter
+const full_spin_time=5000; //time in milli-seconds for one full spin in play mode
 
 
 function Pol2Cart(r,phi,delta){
@@ -55,7 +57,7 @@ function updateUVtracks(){
   images=[];
 
   //update source declination
-  source = [0, declination_control.value];
+  source = [200, declination_control.value];
   elev_lim=parseInt(elev_lim_control.value); //elevetion limit for telescopes in degree
 
   //calculate u-v transformation matrix from source coordinates
@@ -97,13 +99,13 @@ function updateUVtracks(){
   tel_visibles=[];
 
   //start with empty image first
-  u_v_tracks[i]=JSON.parse(JSON.stringify(u_v_track));
-  u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid));
+  u_v_tracks.push(JSON.parse(JSON.stringify(u_v_track)));
+  u_v_grids.push(JSON.parse(JSON.stringify(u_v_grid)));
 
   
-  for (let i = 0; i < n_iter; i++) {
+  for (let i = 0; i < n_iter*n_iter_times; i++) {
 
-    let t=360/n_iter*i;
+    let t=360/n_iter/n_iter_times*i;
 
     
     //convert all telescope positions to cartesian coordinates
@@ -166,7 +168,7 @@ function updateUVtracks(){
                   baseline_count+=1;
                }
             }
-       }
+      }
       u_v_tracks[i]=JSON.parse(JSON.stringify(u_v_track)); //JSON parse part save array in current status so it doesnt get overwritten
       u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid));
       }
@@ -174,17 +176,18 @@ function updateUVtracks(){
   DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
   DrawUVCanvas(u_v_grid,ctx_uv_map,canvas_uv_map)
 
-  for (let aidx=first_i;aidx<=last_i;aidx++){
+  //compute FT transforms
+  for (let aidx=parseInt(first_i);aidx<=last_i; aidx=aidx+n_iter_times){
       setTimeout(function(){
         progress_bar.style.width=Math.round((aidx-first_i)/(last_i-first_i)*100) + "%";
         DrawFourierCanvas(u_v_grids[aidx]);
-        if (aidx==last_i){
+        if (aidx>=last_i-n_iter_times+1){
           setTimeout(function(){
             loading_screen.style.display = 'none';
             map_modal.style.display = "none";
             progress_bar.style.width = "0%";
-            ctx_image.putImageData(images[last_i-parseInt(first_i)], 0, 0);
-            ctx_image_map.putImageData(images[last_i-parseInt(first_i)], 0, 0);
+            ctx_image.putImageData(images[getFourierIndex(last_i-parseInt(first_i))], 0, 0);
+            ctx_image_map.putImageData(images[getFourierIndex(last_i-parseInt(first_i))], 0, 0);
           },1000);
         }
       },(aidx-first_i)*10);
@@ -211,9 +214,13 @@ function updateUVtracks(){
   addMarkers();
   updateCamera(delta);
 
-  RotateGlobe((source[0]+360/n_iter*last_i)/180.0*Math.PI,last_i);
+  RotateGlobe((source[0]+360/n_iter/n_iter_times*last_i-135)/180.0*Math.PI,last_i);
  
  }
+
+function getFourierIndex(n){
+  return Math.floor(n/n_iter_times);
+}
 
 
 function DrawFourierCanvas(u_v_grid){
@@ -398,19 +405,23 @@ measure_button.addEventListener('click', function() {
     setTimeout(function(){
       updateUVtracks();
       //turn off loading screen
-    }, 60);
+    }, 200);
   }
 }, false);
 
 //add event listener to Play button
 var play_button = document.getElementById("play_button");
 play_button.addEventListener('click', function() { 
+  play_button.disabled=true;
   let count=0;
   for (let idx=parseInt(time_control.min);idx<=parseInt(time_control.max);idx++){
     setTimeout(function(){
       time_control.value=idx.toString();
       time_control.dispatchEvent(new Event('input'));
-    }, count*400);
+      if (idx==parseInt(time_control.max)){
+        play_button.disable=false;
+      }
+    }, count*full_spin_time/n_iter_times/n_iter);
     count++;
   }
 }, false);
@@ -423,15 +434,15 @@ var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
   var indx = Math.round(time_control.value);
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
-  ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
-  RotateGlobe((source[0]+360/n_iter*indx)/180.0*Math.PI,indx);
+  ctx_image.putImageData(images[getFourierIndex(indx-parseInt(first_i))], 0, 0);
+  RotateGlobe((source[0]+360/n_iter/n_iter_times*indx-135)/180.0*Math.PI,indx);
   //determine time count:
-  decimal_hours=(indx-parseInt(first_i))/(n_iter-1)*24;
-  hours=Math.floor(((indx-parseInt(first_i))/(n_iter-1)*24));
+  decimal_hours=(indx-parseInt(first_i))/(n_iter*n_iter_times-1)*24;
+  hours=Math.floor(((indx-parseInt(first_i))/(n_iter*n_iter_times-1)*24));
   minutes=Math.round((decimal_hours-hours)*60);
   time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
   }, false);
-time_control.step=0.1;
+time_control.step=0.0001;
 time_control.style.display = 'none';
 
 var declination_control = document.getElementById("declination_control");
@@ -478,6 +489,11 @@ const new_img = new Image();
 //image selector
 var image_select = document.getElementById("image_select");
 image_select.addEventListener("click",function(){
+  ctx_real_image.fillRect(0,0,imgSize,imgSize);
+  ctx_real_image.font = "40px Arial";
+  ctx_real_image.fillStyle = "#ffffff";
+  ctx_real_image.fillText("Lädt...", imgSize/2, imgSize/2);
+  ctx_real_image.fillStyle = "#000000"; 
   new_img.src=image_select.value;
   new_img.addEventListener(
   "load",
@@ -485,6 +501,7 @@ image_select.addEventListener("click",function(){
     ctx_real_image.drawImage(new_img,0,0,imgSize,imgSize);
     var imageData = ctx_real_image.getImageData(0, 0, imgSize, imgSize);
     DrawFourierImage(imageData);
+
   },false)
 },false);
 
@@ -707,3 +724,4 @@ reset_button.addEventListener('click', function() {
 
 
 
+var webglEl = document.getElementById('webgl');
