@@ -176,7 +176,7 @@ function updateUVtracks(){
 
   for (let aidx=first_i;aidx<=last_i;aidx++){
       setTimeout(function(){
-        progress_bar.style.width=Math.floor((aidx-first_i)/(last_i-first_i)*100) + "%";
+        progress_bar.style.width=Math.round((aidx-first_i)/(last_i-first_i)*100) + "%";
         DrawFourierCanvas(u_v_grids[aidx]);
         if (aidx==last_i){
           setTimeout(function(){
@@ -410,7 +410,7 @@ play_button.addEventListener('click', function() {
     setTimeout(function(){
       time_control.value=idx.toString();
       time_control.dispatchEvent(new Event('input'));
-    }, count*300);
+    }, count*400);
     count++;
   }
 }, false);
@@ -428,7 +428,7 @@ time_control.addEventListener('input', function () {
   //determine time count:
   decimal_hours=(indx-parseInt(first_i))/(n_iter-1)*24;
   hours=Math.floor(((indx-parseInt(first_i))/(n_iter-1)*24));
-  minutes=Math.floor((decimal_hours-hours)*60);
+  minutes=Math.round((decimal_hours-hours)*60);
   time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
   }, false);
 time_control.step=0.1;
@@ -473,20 +473,23 @@ var canvas_real_image=document.getElementById("canvas_real_image");
 canvas_real_image.width=imgSize;
 canvas_real_image.height=imgSize;
 var ctx_real_image=canvas_real_image.getContext("2d");
-const default_img = new Image(); // Create new img element
-default_img.addEventListener(
+
+const new_img = new Image();
+//image selector
+var image_select = document.getElementById("image_select");
+image_select.addEventListener("click",function(){
+  new_img.src=image_select.value;
+  new_img.addEventListener(
   "load",
   () => {
-    ctx_real_image.drawImage(default_img,0,0,imgSize,imgSize);
+    ctx_real_image.drawImage(new_img,0,0,imgSize,imgSize);
     var imageData = ctx_real_image.getImageData(0, 0, imgSize, imgSize);
     DrawFourierImage(imageData);
-  },
-  false
-);
-default_img.src = "img/ehtM87.jpg"; // Set source path
+  },false)
+},false);
 
-
-
+//set default image
+image_select.dispatchEvent(new Event('click'));
 
 
 //image loader
