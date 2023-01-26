@@ -55,7 +55,7 @@ function updateUVtracks(){
   images=[];
 
   //update source declination
-  source = [200, declination_control.value];
+  source = [0, declination_control.value];
   elev_lim=parseInt(elev_lim_control.value); //elevetion limit for telescopes in degree
 
   //calculate u-v transformation matrix from source coordinates
@@ -211,7 +211,7 @@ function updateUVtracks(){
   addMarkers();
   updateCamera(delta);
 
-  RotateGlobe((source[0]+360/n_iter*last_i-135)/180.0*Math.PI,last_i);
+  RotateGlobe((source[0]+360/n_iter*last_i)/180.0*Math.PI,last_i);
  
  }
 
@@ -424,7 +424,7 @@ time_control.addEventListener('input', function () {
   var indx = Math.round(time_control.value);
 	DrawUVCanvas(u_v_grids[indx],ctx_uv,canvas_uv);
   ctx_image.putImageData(images[indx-parseInt(first_i)], 0, 0);
-  RotateGlobe((source[0]+360/n_iter*indx-135)/180.0*Math.PI,indx);
+  RotateGlobe((source[0]+360/n_iter*indx)/180.0*Math.PI,indx);
   //determine time count:
   decimal_hours=(indx-parseInt(first_i))/(n_iter-1)*24;
   hours=Math.floor(((indx-parseInt(first_i))/(n_iter-1)*24));
