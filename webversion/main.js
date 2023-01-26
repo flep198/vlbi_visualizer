@@ -16,7 +16,7 @@ let plotLim=15000; //max plot length of baselines
 let n_iter=48; //number of iterations for fourier transform
 let cc = 9e-6 //contrast constant
 let n_iter_times=15; //n_iter*n_iter_times samples of the uv coverage will be calculated, has to be smaller than n_iter
-const full_spin_time=5000; //time in milli-seconds for one full spin in play mode
+const full_spin_time=40000; //time in milli-seconds for one full spin in play mode
 
 
 function Pol2Cart(r,phi,delta){
@@ -419,7 +419,7 @@ play_button.addEventListener('click', function() {
       time_control.value=idx.toString();
       time_control.dispatchEvent(new Event('input'));
       if (idx==parseInt(time_control.max)){
-        play_button.disable=false;
+        play_button.disabled=false;
       }
     }, count*full_spin_time/n_iter_times/n_iter);
     count++;
@@ -724,4 +724,3 @@ reset_button.addEventListener('click', function() {
 
 
 
-var webglEl = document.getElementById('webgl');
