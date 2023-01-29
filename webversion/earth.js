@@ -221,7 +221,7 @@
     	z2 = (radius * Math.sin(phi2)*Math.sin(theta2));
     	y2 = (radius * Math.cos(phi2));
 
-		const material = new THREE.LineBasicMaterial( { color: 0x0000ff,linewidth: 5, depthTest: false} );
+		const material = new THREE.LineBasicMaterial( { color: 0xfa00ff,linewidth: 3, depthTest: false} );
 		const geometry = new THREE.Geometry()
 		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ));
 		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ));
