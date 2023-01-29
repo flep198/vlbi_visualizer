@@ -115,40 +115,37 @@
 
           <div id="map"></div>
         </br>
-
-        <div class="row">
-          <div class="col-md-3">
-            <p>
-              <input type="checkbox" id="vlba" name="vlba">
-              <label for="vlba">VLBA</label>
-
-              <input type="checkbox" id="eht2017" name="eht2017">
-              <label for="eht">EHT (2017)</label>
-
-              <input type="checkbox" id="eht2018" name="eht2018">
-              <label for="eht">EHT (2018-2020)</label>
-
-              <input type="checkbox" id="tanami" name="tanami">
-              <label for="eht">TANAMI</label>
-            </p>
-          </div>
-          <div class="col-md-3 text-center">
-            <p>Ort der Quelle </br> -90 <input type="range" id="declination_control" name="declination_control" 
-              min="-90" max="90" value="0" step="1"> 90</p>
-          </div>
-        </div>
           <div class="row">
-            <div class="col-md-1 text-center">
-              <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
-              <p class="image_map_text">Teleskop hinzufügen</p>
-            </div>
-            <div class="col-md-2 text-center">
-              <button type="button" id="measure_button">Beobachtung starten</button>
-            </br>
-              <button type="button" id="reset_button">Zurücksetzen</button>
+            <div class="col-md-3 text-center">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>
+                    <input type="checkbox" id="vlba" name="vlba">
+                    <label for="vlba">VLBA</label>
+
+                    <input type="checkbox" id="eht2017" name="eht2017">
+                    <label for="eht">EHT (2017)</label>
+
+                    <input type="checkbox" id="eht2018" name="eht2018">
+                    <label for="eht">EHT (2018-2020)</label>
+
+                    <input type="checkbox" id="tanami" name="tanami">
+                    <label for="eht">TANAMI</label>
+                  </p>
+                </div>
+                <div class="col-md-4 text-center">
+                  <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
+                  <p class="image_map_text">Teleskop hinzufügen</p>
+                </div>
+                <div class="col-md-8 text-center">
+                  <button type="button" id="measure_button">Beobachtung starten</button>
+                </br>
+                  <button type="button" id="reset_button">Zurücksetzen</button>
+                </div>
+              </div>
             </div>
             <div class="col-md-3 text-center">
-              <img class="source_declination_image" src="img/source_declination.svg"> 
+              <div class='plain-angle-input default-input'></div>
             </div>
             <div class="col-md-2 text-center">
               <select id="image_select" name="image_select">
@@ -183,12 +180,10 @@
       <script src="Detector.js"></script>    
       <script src="TrackballControls.js"></script>   
       <script src="earth.js"></script>
-      <!--
-      <script src="globe.js"></script>
-      -->
       <script src="https://code.jquery.com/jquery-2.1.0.min.js" integrity="sha256-8oQ1OnzE2X9v4gpRVRMb1DWHoPHJilbur1LP9ykQ9H0=" crossorigin="anonymous"></script>
       <script type="text/javascript" src="connect_api.js"></script>
       <script type="text/javascript" src="fourier.js"></script>
+      <script type="text/javascript" src="DeclinationSlider.js"></script>
       <script type="text/javascript" src="main.js"></script>
 
 

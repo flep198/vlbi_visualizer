@@ -33,6 +33,8 @@ var h_ft_image=[];
 //Globe Telescope Locations
 let locations = [];
 
+var declination = 0;
+
 let source = [0,0];
 
 let first_i=0;
@@ -57,7 +59,7 @@ function updateUVtracks(){
   images=[];
 
   //update source declination
-  source = [200, declination_control.value];
+  source = [200, declination];
   elev_lim=parseInt(elev_lim_control.value); //elevetion limit for telescopes in degree
 
   //calculate u-v transformation matrix from source coordinates
@@ -445,7 +447,6 @@ time_control.addEventListener('input', function () {
 time_control.step=0.0001;
 time_control.style.display = 'none';
 
-var declination_control = document.getElementById("declination_control");
 
 var elev_lim_control = document.getElementById("elev_lim_control");
 
@@ -719,6 +720,20 @@ var reset_button = document.getElementById("reset_button");
 reset_button.addEventListener('click', function() { 
   removeAllTelescopesFromMap();
   }, false);
+
+//Declination Range Slider JS
+// vanilla JavaScript
+var input = document.querySelector('.plain-angle-input');
+
+var angle = AngleInput(input);
+  
+input.oninput = function(e) {
+  declination=angle()-90;
+}
+
+input.onchange = function(e) {
+  declination=angle()-90;
+}
 
 
 

@@ -304,3 +304,55 @@ cursor: pointer;
   height: 30px;
   background-color: green;
 }
+
+
+/* Declination Slider Round */
+.default-input {
+  position: relative;
+  width: 100%;
+  aspect-ratio : 1.2 / 1;
+  /* box-shadow: inset 0 0 1px #888; */
+  border:  1px;
+  background-color: #808;
+  background:  url(img/source_declination.svg);
+  /* background: -webkit-linear-gradient(top,  #ffffff 0%,#f1f1f1 3%,#e1e1e1 96%,#f6f6f6 100%); /1* Chrome10-25,Safari5.1-6 *1/ */
+  /* background: linear-gradient(to bottom,  #ffffff 0%,#f1f1f1 3%,#e1e1e1 96%,#f6f6f6 100%); /1* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *1/ */
+  /* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /1* IE6-9 *1/ */  
+  margin: 2em auto;
+  cursor: pointer;
+  outline: none;
+  background-size: 90% auto;
+  background-repeat: no-repeat;
+  background-position: 75% 50%;
+}
+
+
+.angle-input-pivot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin-top: -1px;
+  height: 2px;
+  /*background-color: #aaa; */
+}
+
+.default-input .angle-input-pivot::before {
+  content: '';
+  position: absolute;
+  right: 20%;
+  top: 0%;
+  aspect-ratio:  1/1;
+  margin-top: -5px;
+  width: 5%;
+  border-radius: 50%;
+  background-color: #00D1FF;
+  /*background-color: #fff;*/
+  /* box-shadow: 0 0 1px #888; */
+  border: 1px solid #ccc;
+}
+
+.default-input:focus .angle-input-pivot::before {
+  /* box-shadow: 0 0 1px #04f; */
+  border: 1px solid #0af;
+}
