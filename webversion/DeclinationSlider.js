@@ -81,7 +81,7 @@
     var min = +key('min');
     var step = +key('step');
     var name = key('name');
-    var value = normalize(min);
+    var value = normalize(90);
 
     accessible($dom);
 

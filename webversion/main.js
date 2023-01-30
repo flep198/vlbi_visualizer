@@ -11,7 +11,7 @@
 
 //initial setup
 let r_e=6731; //Earth Radius in Kilometers
-let imgSize=256; //pixelsize of image
+let imgSize=512; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
 let n_iter=48; //number of iterations for fourier transform
 let cc = 9e-6 //contrast constant
