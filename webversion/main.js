@@ -591,13 +591,13 @@ function addTelescopesToMap(tel_locations){
 }
 
 function removeAllTelescopesFromMap(){
-  for (let i =0;i<checkboxes.length;i++){
+  for (let i=0;i<checkboxes.length;i++){
     if (checkboxes[i].box.checked){
       checkboxes[i].box.click();
     }
   }
   for (let i=0;i<telescopes.length;i++){
-    map.removeObject(telescopes[i]);
+    removeTelescopesFromMap([[telescopes[i].getGeometry().lat,telescopes[i].getGeometry().lng]]);
   }
 }
 
@@ -719,7 +719,7 @@ info_modal_span3.onclick = function() {info_modal3.style.display = "none";}
 var reset_button = document.getElementById("reset_button");
 reset_button.addEventListener('click', function() { 
   removeAllTelescopesFromMap();
-  }, false);
+}, false);
 
 //Declination Range Slider JS
 // vanilla JavaScript
