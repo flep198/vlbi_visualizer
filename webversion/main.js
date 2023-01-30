@@ -11,7 +11,7 @@
 
 //initial setup
 let r_e=6731; //Earth Radius in Kilometers
-let imgSize=512; //pixelsize of image
+let imgSize=256; //pixelsize of image
 let plotLim=15000; //max plot length of baselines
 let n_iter=48; //number of iterations for fourier transform
 let cc = 9e-6 //contrast constant
@@ -412,19 +412,23 @@ measure_button.addEventListener('click', function() {
 }, false);
 
 //add event listener to Play button
+var play=false;
 var play_button = document.getElementById("play_button");
 play_button.addEventListener('click', function() { 
-  play_button.disabled=true;
-  let count=0;
-  for (let idx=parseInt(time_control.min);idx<=parseInt(time_control.max);idx++){
-    setTimeout(function(){
-      time_control.value=idx.toString();
-      time_control.dispatchEvent(new Event('input'));
-      if (idx==parseInt(time_control.max)){
-        play_button.disabled=false;
-      }
-    }, count*full_spin_time/n_iter_times/n_iter);
-    count++;
+  if(play){
+    clearInterval(playLoop);
+    play_button.src="img/play_button.svg";
+    play=false;
+  } else {
+    play=true;
+    this.src = "img/Basic_red_dot.png";
+    playLoop=setInterval(function(){
+        time_control.value++;
+        time_control.dispatchEvent(new Event('input'));
+        if (time_control.value==time_control.max){
+          time_control.value=time_control.min;
+        }    
+    },full_spin_time/n_iter/n_iter_times);
   }
 }, false);
 play_button.style.display = 'none';
@@ -691,7 +695,13 @@ var map_modal = document.getElementById("map-modal");
 var map_modal_btn = document.getElementById("map-modal-button");
 var map_modal_span = document.getElementById("close-map-modal");
 map_modal.style.display="none";
-map_modal_btn.onclick = function() {map_modal.style.display = "block";}
+map_modal_btn.onclick = function() {
+  map_modal.style.display = "block";
+  //stop play button
+  if(play){
+    play_button.dispatchEvent(new Event('click'));
+  }
+}
 map_modal_span.onclick = function() {map_modal.style.display = "none";}
 
 //info modal for map
