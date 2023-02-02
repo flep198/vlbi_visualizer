@@ -168,9 +168,11 @@ p {
 /* The Close Button */
 .close {
   color: rgb(255, 255, 255);
-  float: right;
+  float: left;
   font-size: 40px !important;
   font-weight: bold;
+  margin-left: 2%;
+  margin-top: 1%;
 }
 
 .close:hover,
