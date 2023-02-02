@@ -118,7 +118,6 @@ p {
 }
 
 .play {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -132,8 +131,6 @@ p {
 #time_control {
   width: 70%;
   margin: 1%;
-  overflow: hidden;
-  background-color: white;
 }
 
 #time_count {
@@ -353,4 +350,99 @@ cursor: pointer;
 .default-input:focus .angle-input-pivot::before {
   /* box-shadow: 0 0 1px #04f; */
   border: 1px solid #0af;
+}
+
+
+/*style play slider */
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  /* Hides the slider so custom styles can be added */
+  background: transparent; 
+  border-color: transparent;
+  color: transparent;
+}
+
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 40px;
+  width: 2px;
+  background: #00D1FF;
+  cursor: pointer;
+  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  height: 40px;
+  width: 3px;
+  background: #00D1FF;
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  height: 40px;
+  width: 3px;
+  background: #00D1FF;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px !important;
+  cursor: pointer;
+  background: #ffffff;
+}
+
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 5px !important;
+  cursor: pointer;
+  background: #ffffff;
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: #00D1FF; 
+}
+
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 8px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #00D1FF;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #00D1FF;
+}
+input[type=range]::-ms-fill-upper {
+  background: #ffffff;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #ffffff;
 }
