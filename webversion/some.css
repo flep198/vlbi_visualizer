@@ -291,7 +291,7 @@ cursor: pointer;
 }
 
 .info_text {
-  font-size: 150%;
+  font-size: 2vmin;
   padding-top: 20%;
 }
 
