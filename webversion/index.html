@@ -119,19 +119,22 @@
             <div class="col-md-3 text-center">
               <div class="row">
                 <div class="col-md-12">
-                  <p>
+                
+                  <div class="container">
                     <input type="checkbox" id="vlba" name="vlba">
                     <label for="vlba">VLBA</label>
 
                     <input type="checkbox" id="eht2017" name="eht2017">
-                    <label for="eht">EHT (2017)</label>
-
+                    <label for="eht2017">EHT (2017)</label>
+                  </div>
+                  <div class="container">
                     <input type="checkbox" id="eht2018" name="eht2018">
-                    <label for="eht">EHT (2018-2020)</label>
+                    <label for="eht2018">EHT (2018-2020)</label>
 
                     <input type="checkbox" id="tanami" name="tanami">
-                    <label for="eht">TANAMI</label>
-                  </p>
+                    <label for="tanami">TANAMI</label>
+                  </div>
+                  
                 </div>
                 <div class="col-md-4 text-center">
                   <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
@@ -148,15 +151,15 @@
               <div class='plain-angle-input default-input'></div>
             </div>
             <div class="col-md-2 text-center">
-              <select id="image_select" name="image_select">
-                <option value="img/Punktquelle.png">Punktquelle</option>
-                <option value="img/ehtSgr.jpg">SgrA*</option>
-                <option selected value="img/ehtM87.jpg">M87</option>
-                <option value="img/HerculesA.jpg">Hercules A</option>
-                <!--<option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>-->
-              </select>
-              <input type="file" name="photo" id="image" accept="image/*">
-                <p class="Punktquelle_text">Rekonstruiere <br> diese Punktquelle!</p>
+              <!--<input type="file" name="photo" id="image" accept="image/*">-->
+                <p class="Punktquelle_text">Was willst <br> du beobachten?</p>
+                <select id="image_select" class="custom-select" name="image_select">
+                  <option value="img/Punktquelle.png">Punktquelle</option>
+                  <option value="img/ehtSgr.jpg">SgrA*</option>
+                  <option selected value="img/ehtM87.jpg">M87</option>
+                  <option value="img/HerculesA.jpg">Hercules A</option>
+                  <!--<option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>-->
+                </select>
                 <canvas id="canvas_real_image" class="Punktquelle"></canvas>
                 <!--<img class= "Punktquelle" src="img/Punktquelle.png">-->
             </div>
@@ -185,7 +188,6 @@
       <script type="text/javascript" src="fourier.js"></script>
       <script type="text/javascript" src="DeclinationSlider.js"></script>
       <script type="text/javascript" src="main.js"></script>
-
 
   </body>  
 </html>
