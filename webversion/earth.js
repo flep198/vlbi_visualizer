@@ -14,6 +14,8 @@
 
 	var scene2 = new THREE.Scene();
 
+	var scene3 = new THREE.Scene();
+
 	var camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 1000);
 	camera.position.z=1.5;
 	
@@ -36,12 +38,16 @@
 	scene.add(light);
 
 	var sphere = createSphere(radius, segments);
-	sphere.rotation.y = rotation; 
+	sphere.rotation.y = rotation;
 	scene.add(sphere);
 
 	var sphere2 = createSphere(0.000000001, segments);
 	sphere2.rotation.y = rotation; 
 	scene2.add(sphere2);
+
+	var sphere3 = createSphere(0.000000001, segments);
+	sphere3.rotation.y = rotation; 
+	scene3.add(sphere3);
 
 	var clouds = createClouds(radius, segments);
 	clouds.rotation.y = rotation;
@@ -50,11 +56,6 @@
 
 	function addMarkers(){
 
-		//create marker
-		for (let c=0;c<locations.length;c++){
-			createMarker(radius,locations[c].longitude,locations[c].latitude);
-		}
-
 		//create baselines
 		var baselineLocations=[];
 		for (i=0;i<(locations.length-1);i++){
@@ -62,12 +63,20 @@
             	createBaseline(radius,locations[i].longitude,locations[i].latitude,locations[j].longitude,locations[j].latitude);
             }
         }              
-        
+       	
+       	//create marker
+		for (let c=0;c<locations.length;c++){
+			createMarker(radius,locations[c].longitude,locations[c].latitude);
+		}
 	}
 
 	function removeAllMarkers(){
-		for (var i = sphere.children.length - 1; i >= 0; i--) {
-    		sphere.remove(sphere.children[i]);
+		for (var i = sphere2.children.length - 1; i >= 0; i--) {
+    		sphere2.remove(sphere2.children[i]);
+		}
+
+		for (var i = sphere3.children.length - 1; i >= 0; i--) {
+    		sphere3.remove(sphere3.children[i]);
 		}
 	}
 
@@ -78,10 +87,51 @@
 
 	render();
 
-	function RotateGlobe(rad_value){
+	function RotateGlobe(rad_value,indx){
+
+		//check which telescopes and baselines will be visible
+		var TelChilds=[];
+		var BaselineChilds=[];
+
+		sphere2.traverse ( function (child) {
+	    	if (child instanceof THREE.Line){
+	    		BaselineChilds.push(child);
+	    	}
+  		});
+
+  		sphere3.traverse (function (child){
+	  		if (child instanceof THREE.Mesh) {
+	      		TelChilds.push(child);
+	    	}
+  		});
+
+		var count_indx=0;
+  		for (i=0;i<locations.length-1;i++){
+  			for(k=i+1;k<locations.length;k++){
+  				if (tel_visibles[indx][i] && tel_visibles[indx][k]){
+  					BaselineChilds[count_indx].visible=true;
+  				} else {
+  					BaselineChilds[count_indx].visible=false;
+  				}
+  				count_indx++;
+  			}
+  		}
+
+  		for (i=0;i<locations.length;i++){
+  			if(tel_visibles[indx][i]){
+  				TelChilds[i+1].visible=true;
+  			} else {
+  				TelChilds[i+1].visible=false;
+  			}
+  		}
+
+  		
+
+		//do rotation
 		sphere.rotation.y=rad_value;
 		clouds.rotation.y=rad_value;
 		sphere2.rotation.y=rad_value;
+		sphere3.rotation.y=rad_value;
 	}
 
 	function render() {
@@ -93,6 +143,8 @@
 		renderer.render( scene, camera );     // render scene 1
 		renderer.clear( false, true, false );                // clear depth buffer
 		renderer.render( scene2, camera );
+		renderer.clear(false,true,false);
+		renderer.render(scene3,camera);
 	}
 
 	function createSphere(radius, segments) {
@@ -134,9 +186,9 @@
     	var phi   = (90-lat)*(Math.PI/180);
     	var theta = (lon+180)*(Math.PI/180);
 
-    	x = -(radius * Math.sin(phi)*Math.cos(theta));
-    	z = (radius * Math.sin(phi)*Math.sin(theta));
-    	y = (radius * Math.cos(phi));
+    	x = -((radius) * Math.sin(phi)*Math.cos(theta));
+    	z = ((radius) * Math.sin(phi)*Math.sin(theta));
+    	y = ((radius) * Math.cos(phi));
 
 		var marker = new THREE.Mesh(
 			new THREE.SphereGeometry(0.010,segments,segments),
@@ -148,7 +200,7 @@
 		marker.position.z = z;
 
 		marker.rotation.y = rotation;
-		sphere.add(marker);
+		sphere3.add(marker);
 	}
 
 		function createBaseline(radius,lon,lat,lon2,lat2){
@@ -169,12 +221,13 @@
     	z2 = (radius * Math.sin(phi2)*Math.sin(theta2));
     	y2 = (radius * Math.cos(phi2));
 
-		const material = new THREE.LineBasicMaterial( { color: 0x0000ff, depthTest: false} );
+		const material = new THREE.LineBasicMaterial( { color: 0xfa00ff,linewidth: 3, depthTest: false} );
 		const geometry = new THREE.Geometry()
-		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ) );
-		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ) );
-		const line = new THREE.Line( geometry, material );
+		geometry.vertices.push( new THREE.Vector3(x1, y1, z1 ));
+		geometry.vertices.push( new THREE.Vector3(x2, y2, z2 ));
+		const line = new THREE.Line(geometry, material);
 
 		line.rotation.y = rotation;
 		sphere2.add(line);
+
 	}

@@ -22,10 +22,10 @@
       <div class="row">
 
         <div class="col-md-4 text-center align-middle">
-          <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
-          <div id="webgl"></div>
-
-
+          <div class="globe-wrapper">
+            <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
+            <div id="webgl"></div>
+          </div>
         </div>
         <div class="col-md-4 text-center"> 
           <p class="main_page_headlines">Virtuelles Teleskop <input type="image" id="info-modal-button-2" img class="info" src="img/info.svg"/> </p>
@@ -42,18 +42,21 @@
           <p><input type="button" id="map-modal-button" value="Teleskope bearbeiten"/></p>
         </div>
         <div class="col-md-6">
-            <p class="Beobachtungszeit">Beobachtungszeit t</p>
+            <p id="time_count"></p>
             <div class="play">
               <input type="image" id="play_button" img class="play_button" src="img/play_button.svg">
               <input type="range" id="time_control" name="time_control" 
                   min="0" max="99" value="99" step="1">
-              <p id="time_count"></p>
             </div>
         </div>
       </div>
 
       <!-- loading screen -->
-      <div id="cover-spin"></div>
+      <div id="cover-spin">
+        <div id="myProgress">
+          <div id="myBar"></div>
+        </div>
+      </div>
 
 
       <!-- info modal for map-->
@@ -68,10 +71,7 @@
             
           </div>
           <div class="col-md-4">
-            <p class="info_text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-              in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-              mollit anim id est laborum. </p>
+            <p class="info_text"> Radioteleskope werden verwendet, um ferne Galaxien oder andere astronmische Objekte in unserem Universum zu beobachten. Das Radioteleskop misst, ähnlich wie ein optisches Teleskop oder Fernrohr, Licht, allerdings kein sichtbares Licht, sondern Radio-Wellen, die von unterschiedlichen Objekten ausgestrahlt wird. Üblicherweise sieht ein Radioteleskop aus wie eine sehr große Satellitenschüssel (kann aber auch andere Formen annehmen), es ist allerdings wesentlich größer als unsere handelsüblichen Satellitenschüsseln. Die Größe ist wichtig, um mehr Strahlung sammeln zu können, da die ausgesendete Radiostrahlung von astronomischen Objekten im allgemeinen nur sehr schwach ist. Das Bild zeigt das größte voll bewegliche Radioteleskop Europas (100m Durchmesser), welches sich in Effelsberg in der Eifel befindet.</p>
           </div>
         </div>
 
@@ -90,16 +90,7 @@
               <img class="info_middle" src="img/Dings_virtuelles_Teleskop.png">
             </div>
             <div class="col-md-4">
-              <p class="info_text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-                in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-                mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-                in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-                mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-                in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-                mollit anim id est laborum. </p>
+              <p class="info_text"> Um hochauflösende Bilder von astronmischen Objekten erstellen zu können, benötigt man im allgemeinen sehr große Teleskope. Je größer ein Teleskop ist, desto hochaufgelöster ("schärfer") kann es Bilder aufnehmen. Ab einer gewissen Teleskopgröße ist es technisch nicht mehr möglich, ein noch größeres Teleskop zu bauen. Mit einer schlauen Idee, für die es 1974 sogar den Nobelpreis gab kann man sich allerdings Abhilfe schaffen: Man kann mehrere Teleskope (auch mit großem Abstand zueinander) zu einem großen virtuellen Teleskop zusammenschließen, um eine fast beliebig große Auflösung zu erhalten. Diese Technik wird auch als Radiointerferometrie bezeichnet, oder bei großen Abständen der Teleskope auch Very Long Baseline Interferometry (VLBI). Entscheidend für die Auflösung und Bildqualität sind dabei die Verbindungslinien ("Baselines") zwischen allen Teleskopen in diesem Verbund und deren Länge. Das virtuelle Teleskop bildet sich aus Richtung und Länge dieser Verbindungslinien in Blickrichtung zur beobachteten Quelle. Durch die Erdrotation verändern sich die Baselines im Laufe eines Tages (projeziert auf die Ebene der beobachteten Quelle (welche unbewegt am Himmel ist) und man kann so durch längere Beobachtungszeit die Ausmaße des virtuellen Teleskopes und damit am Ende die Bildqualität verbessern.</p>
             </div>
           </div>
         </div>
@@ -110,7 +101,7 @@
       <div id="info-modal-3" class="info-modal">
         <div class="info-modal-content" id="info-modal-content-3">
           <span class="close" id="close-info-modal-3">&times;</span>
-          This is info about the image
+          Das finale Bild, welches vom Teleskopverbund erstellt wird, entsteht durch komplexe Rückrechnung (Fourier-Transformation), der Signale, die von den unterschiedlichen Baselines aufgezeichnet wurden. Im Allgemeinen enthält diese Roh-Bild noch viele Artefakte und die echte Struktur der beobachteten Quelle ist nur bedingt zu erkennen. Durch durch geeignete Rekrunstruktionsverfahren kann man dieses finale Bild noch verbessern um mehr Detailreichtum der beobachteten Quelle zu sehen. 
         </div>
 
       </div>
@@ -124,44 +115,50 @@
 
           <div id="map"></div>
         </br>
-
-        <div class="row">
-          <div class="col-md-3">
-            <p>
-              <input type="checkbox" id="vlba" name="vlba">
-              <label for="vlba">VLBA</label>
-
-              <input type="checkbox" id="eht2017" name="eht2017">
-              <label for="eht">EHT (2017)</label>
-
-              <input type="checkbox" id="eht2018" name="eht2018">
-              <label for="eht">EHT (2018-2020)</label>
-
-              <input type="checkbox" id="tanami" name="tanami">
-              <label for="eht">TANAMI</label>
-            </p>
-          </div>
-          <div class="col-md-3 text-center">
-            <p>Ort der Quelle </br> -90 <input type="range" id="declination_control" name="declination_control" 
-              min="-90" max="90" value="0" step="1"> 90</p>
-          </div>
-        </div>
           <div class="row">
-            <div class="col-md-1 text-center">
-              <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
-              <p class="image_map_text">Teleskop hinzufügen</p>
-            </div>
-            <div class="col-md-2 text-center">
-              <button type="button" id="measure_button">Beobachtung starten</button>
-            </br>
-              <button type="button" id="reset_button">Zurücksetzen</button>
+            <div class="col-md-3 text-center">
+              <div class="row">
+                <div class="col-md-12">
+                  <p>
+                    <input type="checkbox" id="vlba" name="vlba">
+                    <label for="vlba">VLBA</label>
+
+                    <input type="checkbox" id="eht2017" name="eht2017">
+                    <label for="eht">EHT (2017)</label>
+
+                    <input type="checkbox" id="eht2018" name="eht2018">
+                    <label for="eht">EHT (2018-2020)</label>
+
+                    <input type="checkbox" id="tanami" name="tanami">
+                    <label for="eht">TANAMI</label>
+                  </p>
+                </div>
+                <div class="col-md-4 text-center">
+                  <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
+                  <p class="image_map_text">Teleskop hinzufügen</p>
+                </div>
+                <div class="col-md-8 text-center">
+                  <button type="button" id="measure_button">Beobachtung starten</button>
+                </br>
+                  <button type="button" id="reset_button">Zurücksetzen</button>
+                </div>
+              </div>
             </div>
             <div class="col-md-3 text-center">
-              <img class="source_declination_image" src="img/source_declination.svg"> 
+              <div class='plain-angle-input default-input'></div>
             </div>
             <div class="col-md-2 text-center">
+              <select id="image_select" name="image_select">
+                <option value="img/Punktquelle.png">Punktquelle</option>
+                <option value="img/ehtSgr.jpg">SgrA*</option>
+                <option selected value="img/ehtM87.jpg">M87</option>
+                <option value="img/HerculesA.jpg">Hercules A</option>
+                <!--<option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>-->
+              </select>
+              <input type="file" name="photo" id="image" accept="image/*">
                 <p class="Punktquelle_text">Rekonstruiere <br> diese Punktquelle!</p>
-                <img class= "Punktquelle" src="img/Punktquelle.png">
+                <canvas id="canvas_real_image" class="Punktquelle"></canvas>
+                <!--<img class= "Punktquelle" src="img/Punktquelle.png">-->
             </div>
             <div class="col-md-2 text-right">
               <p class="image_map_text">Virtuelles Teleskop</p>
@@ -173,7 +170,7 @@
             </div>
           </div>
           <p class="elevation_limit">Adjust Elevation Limit of Telescopes </br> 0 <input type="range" id="elev_lim_control" name="elev_lim_control" 
-            min="0" max="30" value="0" step="1"> 30</p></p>
+            min="0" max="30" value="5" step="1"> 30</p></p>
         </div>
       </div>
   
@@ -183,12 +180,10 @@
       <script src="Detector.js"></script>    
       <script src="TrackballControls.js"></script>   
       <script src="earth.js"></script>
-      <!--
-      <script src="globe.js"></script>
-      -->
       <script src="https://code.jquery.com/jquery-2.1.0.min.js" integrity="sha256-8oQ1OnzE2X9v4gpRVRMb1DWHoPHJilbur1LP9ykQ9H0=" crossorigin="anonymous"></script>
       <script type="text/javascript" src="connect_api.js"></script>
       <script type="text/javascript" src="fourier.js"></script>
+      <script type="text/javascript" src="DeclinationSlider.js"></script>
       <script type="text/javascript" src="main.js"></script>
 
 
