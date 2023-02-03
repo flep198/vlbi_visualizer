@@ -22,34 +22,42 @@
       <div class="row">
 
         <div class="col-md-4 text-center align-middle">
-          <div class="globe-wrapper">
-            <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
-            <div id="webgl"></div>
+          
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="globe-wrapper">
+                <p class="main_page_headlines">Radioteleskope <input type="image" id="info-modal-button-1" img class="info" src="img/info.svg"/></p>
+                <div id="webgl"></div>
+              </div>
+            </div>
+            <div class="col-md-12 text-center">
+              <p><input type="button" id="map-modal-button" value="Teleskope bearbeiten"/></p>
+            </div>
           </div>
         </div>
-        <div class="col-md-4 text-center"> 
-          <p class="main_page_headlines">Virtuelles Teleskop <input type="image" id="info-modal-button-2" img class="info" src="img/info.svg"/> </p>
-          <canvas id="canvas_uv"></canvas>
-        </div>
-        <div class="col-md-4 text-center">
-          <p class="main_page_headlines">Rekonstruiertes Bild <input type="image" id="info-modal-button-3" img class="info" src="img/info.svg"/></p>
-          <canvas id="canvas_image"></canvas>
-        </div>
-      </div>
-      </br>
-      <div class="row">
-        <div class="col-md-4 text-center">
-          <p><input type="button" id="map-modal-button" value="Teleskope bearbeiten"/></p>
-        </div>
-        <div class="col-md-6">
-            <p id="time_count"></p>
-            <div class="play">
-              <input type="image" id="play_button" img class="play_button" src="img/play_button.svg">
-              <input type="range" id="time_control" name="time_control" 
-                  min="0" max="99" value="99" step="1">
+        
+        <div class="col-md-8 text-center">
+          <div class="row gy-5">
+            <div class="col-md-6 text-center"> 
+              <p class="main_page_headlines">Virtuelles Teleskop <input type="image" id="info-modal-button-2" img class="info" src="img/info.svg"/> </p>
+              <canvas id="canvas_uv"></canvas>
             </div>
+            <div class="col-md-6 text-center">
+              <p class="main_page_headlines">Rekonstruiertes Bild <input type="image" id="info-modal-button-3" img class="info" src="img/info.svg"/></p>
+              <canvas id="canvas_image"></canvas>
+            </div>
+            <div class="col-md-12 tex-center">
+              <p id="time_count"></p>
+              <div class="play">
+                <input type="image" id="play_button" img class="play_button" src="img/play_button.svg">
+                <input type="range" id="time_control" name="time_control" 
+                    min="0" max="99" value="99" step="1">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
 
       <!-- loading screen -->
       <div id="cover-spin">
@@ -63,21 +71,20 @@
       <div id="info-modal-1" class="info-modal">
         <div class="info-modal-content" id="info-modal-content-1">
           <span class="close" id="close-info-modal-1">&times;</span>
-          <div class="col-md-4 text-center">
-
-
-          </div>
-          <div class="col-md-4 text-center">
-            
-          </div>
-          <div class="col-md-4">
-            <p class="info_text"> Radioteleskope werden verwendet, um ferne Galaxien oder andere astronomische Objekte in unserem Universum 
-              zu beobachten. Das Radioteleskop misst, ähnlich wie ein optisches Teleskop oder Fernrohr, Licht, allerdings kein sichtbares Licht,
-               sondern Radio-Wellen, die von unterschiedlichen Objekten ausgestrahlt wird. Üblicherweise sieht ein Radioteleskop aus wie eine 
-               sehr große Satellitenschüssel (kann aber auch andere Formen annehmen), es ist allerdings wesentlich größer als unsere 
-               handelsüblichen Satellitenschüsseln. Die Größe ist wichtig, um mehr Strahlung sammeln zu können, da die ausgesendete Radiostrahlung
-               von astronomischen Objekten im allgemeinen nur sehr schwach ist. Das Bild zeigt das größte voll bewegliche Radioteleskop Europas
-                 (100m Durchmesser), welches sich in Effelsberg in der Eifel befindet.</p>
+          <div class="row">
+            <div class="col-md-8 text-center">
+              <img id="effelsberg_img" src="img/effelsberg.png">
+            </div>
+            <div class="col-md-4">
+              <h1>Radioteleskope</h1>
+              <p class="info_text"> Radioteleskope werden verwendet, um ferne Galaxien oder andere astronomische Objekte in unserem Universum 
+                zu beobachten. Das Radioteleskop misst, ähnlich wie ein optisches Teleskop oder Fernrohr, Licht, allerdings kein sichtbares Licht,
+                 sondern Radio-Wellen, die von unterschiedlichen Objekten ausgestrahlt wird. Üblicherweise sieht ein Radioteleskop aus wie eine 
+                 sehr große Satellitenschüssel (kann aber auch andere Formen annehmen), es ist allerdings wesentlich größer als unsere 
+                 handelsüblichen Satellitenschüsseln. Die Größe ist wichtig, um mehr Strahlung sammeln zu können, da die ausgesendete Radiostrahlung
+                 von astronomischen Objekten im allgemeinen nur sehr schwach ist. Das Bild zeigt das größte voll bewegliche Radioteleskop Europas
+                   (100m Durchmesser), welches sich in Effelsberg in der Eifel befindet.</p>
+            </div>
           </div>
         </div>
 
@@ -89,8 +96,7 @@
         <div class="info-modal-content" id="info-modal-content-2">
           <span class="close" id="close-info-modal-2">&times;</span>
           <div class="row">
-            <div class="col-md-8 text-center">
-             
+            <div class="col-md-8 text-center">   
               <img class="gif" src="img/uv_coverage.gif">
             </div>
             <div class="col-md-4">
@@ -116,12 +122,70 @@
       <div id="info-modal-3" class="info-modal">
         <div class="info-modal-content" id="info-modal-content-3">
           <span class="close" id="close-info-modal-3">&times;</span>
-          <div class="col-md-4">
-            <p class="info_text">Das finale Bild, welches vom Teleskopverbund erstellt wird, entsteht durch komplexe Rückrechnung 
-              (Fourier-Transformation), der Signale, die von den unterschiedlichen Baselines aufgezeichnet wurden. Im Allgemeinen
-               enthält diese Roh-Bild noch viele Artefakte und die echte Struktur der beobachteten Quelle ist nur bedingt zu erkennen.
-               Durch durch geeignete Rekrunstruktionsverfahren kann man dieses finale Bild noch verbessern um mehr Detailreichtum 
-               der beobachteten Quelle zu sehen.</p>
+          <div class="row">
+            <div class="col-md-4">
+              <h1>Rekonstruiertes Bild</h1>
+              <p class="info_text">Das finale Bild, welches vom Teleskopverbund erstellt wird, entsteht durch komplexe Rückrechnung 
+                (Fourier-Transformation) der Signale, die von den unterschiedlichen Baselines aufgezeichnet wurden. Im Allgemeinen
+                 enthält diese Roh-Bild noch viele Artefakte und die echte Struktur der beobachteten Quelle ist nur bedingt zu erkennen.
+                 Durch geeignete Rekrunstruktionsverfahren kann man dieses finale Bild noch verbessern um mehr Detailreichtum 
+                 der beobachteten Quelle zu sehen. Das Bild rechts zeigt das fertig rekonstruierte Bild des schwarzen Lochs im Zentrum der Galaxie M87.</p>
+            </div>
+            <div class="col-md-8 text-center">
+              <img id="eht_image_result" src="img/ehtM87.jpg">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- info modal for VLBA-->
+      <div id="info-modal-vlba" class="info-modal">
+        <div class="info-modal-content" id="info-modal-content-vlba">
+          <span class="close" id="close-info-modal-vlba">&times;</span>
+          <div class="row">
+            <div class="col-md-4">
+              <h1>VLBA</h1>
+              <p class="info_text">Das Very Long Baseline Array (VLBA) ist ein Radiointerferometer, mit dem nach den Verfahren der VLBI Radiobeobachtungen astronomischer Objekte mit höchster Winkelauflösung gewonnen werden können. Die zehn Antennen des VLBA mit je 25 m Durchmesser und 240 Tonnen Gewicht sind über zehn Standorte in den USA verteilt. Die größte Entfernung zwischen diesen Standorten ist 8611 km. Die Antennen verfügen über Empfänger für zehn Frequenzbereiche zwischen 1,2 und 96 GHz. Durch die langen Basislinien zwischen den Standorten erreicht das VLBA, je nach Frequenz, eine Winkelauflösung von teilweise weniger als einer tausendstel Bogensekunde. Mit dem Bau des VLBA wurde 1986 begonnen. Das VLBA wurde 1993 eingeweiht und wird vom National Radio Astronomy Observatory der USA betrieben. Die Zentrale befindet sich in Socorro, New Mexico. (Bild: NRAO/AUI, SeaWiFS Project NASA/GSFC and ORBIMAGE) </p>
+            </div>
+            <div class="col-md-8 text-center">
+              <img class="vlba_image" src="img/vlba.jpg">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- info modal for EHT-->
+      <div id="info-modal-eht" class="info-modal">
+        <div class="info-modal-content" id="info-modal-content-eht">
+          <span class="close" id="close-info-modal-eht">&times;</span>
+          <div class="row">
+            <div class="col-md-4">
+              <h1>EHT</h1>
+              <p class="info_text">Das Event Horizon Telescope (EHT, deutsch Ereignis-Horizont-Teleskop) ist ein Verbund von Radioteleskopen, um mittels Very Long Baseline Interferometry (VLBI) weit entfernte Schwarze Löcher zu untersuchen. Die ersten beiden Ziele des Verbunds sind das supermassereiche Schwarze Loch Sagittarius A* im Zentrum der Milchstraße und das Schwarze Loch im Zentrum der elliptischen Riesengalaxie M87. Damit sollen Vorhersagen der Allgemeinen Relativitätstheorie überprüft sowie Erklärungsansätze zur Entstehung der äußerst energetischen Jets supermassereicher Schwarzer Löcher gefunden werden. (Bild: EHT Collaboration)</p>
+            </div>
+            <div class="col-md-8 text-center">
+              <img class="vlba_image" src="img/eht_network.jpg">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+            <!-- info modal for TANAMI-->
+      <div id="info-modal-tanami" class="info-modal">
+        <div class="info-modal-content" id="info-modal-content-tanami">
+          <span class="close" id="close-info-modal-tanami">&times;</span>
+          <div class="row">
+            <div class="col-md-4">
+              <h1>TANAMI</h1>
+              <p class="info_text">Supermassive Schwarze Löcher in aktiven Galaxienkernen (engl. Active Galactic Nuclei; AGN) sind in der Lage mächtige Jets relativistischen Plasmas zu bilden, welche sich als Schlüsselobjekte in der modernen Astronomie und Astrophysik zeigen. AGN Jets tragen einen Grossteil der potentiellen Energie, die im Prozess der Akkretion von Materie auf das Schwarze Loch freigesetzt wird. Sie stellen auch die derzeit vielversprechendsten Kandidaten für die fieberhaft gesuchten Quellen der ultrahoch-energetischen Strahlung und des kürzlich entdeckten hochenergetischen extraterrestrischen Neutrinoflusses dar. TANAMI ist ein Multiwellenlängenprogramm zur Überwachung von AGN Jets des südlichen Himmels. Es kombiniert hochauflösende Bildgebung und Spektralbeobachtungen im Radiowellenbereich mit Beobachtungen bei höheren Energien im IR-, optisch/UV-, Röntgen- und Gammastrahlungsbereich. (Bild: M. Kadler & J. Wilms)</p>
+            </div>
+            <div class="col-md-8 text-center">
+              <img class="vlba_image" src="img/tanami.jpg">
+            </div>
           </div>
         </div>
 
@@ -143,17 +207,21 @@
                 
                   <div class="container">
                     <input type="checkbox" id="vlba" name="vlba">
-                    <label for="vlba">VLBA</label>
+                    <label for="vlba">VLBA </label>
+                    <input type="image" id="info-modal-button-vlba" img class="info" src="img/info.svg"/> 
 
                     <input type="checkbox" id="eht2017" name="eht2017">
-                    <label for="eht2017">EHT (2017)</label>
+                    <label for="eht2017">EHT (2017) </label>
+                    <input type="image" id="info-modal-button-eht" img class="info" src="img/info.svg"/>
                   </div>
                   <div class="container">
                     <input type="checkbox" id="eht2018" name="eht2018">
-                    <label for="eht2018">EHT (2018-2020)</label>
+                    <label for="eht2018">EHT (2018-2020) </label>
+                    <input type="image" id="info-modal-button-eht2" img class="info" src="img/info.svg"/>
 
                     <input type="checkbox" id="tanami" name="tanami">
-                    <label for="tanami">TANAMI</label>
+                    <label for="tanami">TANAMI </label>
+                    <input type="image" id="info-modal-button-tanami" img class="info" src="img/info.svg"/>
                   </div>
                   
                 </div>
@@ -186,7 +254,7 @@
                   <option value="img/ehtSgr.jpg">SgrA*</option>
                   <option selected value="img/ehtM87.jpg">M87</option>
                   <option value="img/HerculesA.jpg">Hercules A</option>
-                  <!--<option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>-->
+                  <option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>
                 </select>
                 <canvas id="canvas_real_image" class="Punktquelle"></canvas>
                 <!--<img class= "Punktquelle" src="img/Punktquelle.png">-->

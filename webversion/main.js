@@ -731,6 +731,50 @@ var info_modal_span3 = document.getElementById("close-info-modal-3");
 info_modal_btn3.onclick = function() {info_modal3.style.display = "block";}
 info_modal_span3.onclick = function() {info_modal3.style.display = "none";}
 
+//info modal for VLBA
+var info_modal_vlba = document.getElementById("info-modal-vlba");
+var info_modal_btn_vlba = document.getElementById("info-modal-button-vlba");
+var info_modal_span_vlba = document.getElementById("close-info-modal-vlba");
+info_modal_btn_vlba.addEventListener('click', function() {
+  info_modal_vlba.style.display = "block";
+  map_modal.style.display="none";});
+info_modal_span_vlba.addEventListener('click', function() {
+  info_modal_vlba.style.display = "none";
+  map_modal.style.display="block";});
+
+//info modal for EHT
+var info_modal_eht = document.getElementById("info-modal-eht");
+var info_modal_btn_eht = document.getElementById("info-modal-button-eht");
+var info_modal_span_eht = document.getElementById("close-info-modal-eht");
+info_modal_btn_eht.addEventListener('click', function() {
+  info_modal_eht.style.display = "block";
+  map_modal.style.display="none";});
+info_modal_span_eht.addEventListener('click', function() {
+  info_modal_eht.style.display = "none";
+  map_modal.style.display="block";});
+
+//info modal for EHT2
+var info_modal_btn_eht2 = document.getElementById("info-modal-button-eht2");
+info_modal_btn_eht2.addEventListener('click', function() {
+  info_modal_eht.style.display = "block";
+  map_modal.style.display="none";});
+info_modal_span_eht.addEventListener('click', function() {
+  info_modal_eht.style.display = "none";
+  map_modal.style.display="block";});
+
+//info modal for TANAMI
+var info_modal_tanami = document.getElementById("info-modal-tanami");
+var info_modal_btn_tanami = document.getElementById("info-modal-button-tanami");
+var info_modal_span_tanami = document.getElementById("close-info-modal-tanami");
+info_modal_btn_tanami.addEventListener('click', function() {
+  info_modal_tanami.style.display = "block";
+  map_modal.style.display="none";});
+info_modal_span_tanami.addEventListener('click', function() {
+  info_modal_tanami.style.display = "none";
+  map_modal.style.display="block";});
+
+
+
 
 var reset_button = document.getElementById("reset_button");
 reset_button.addEventListener('click', function() { 
