@@ -217,6 +217,12 @@ function updateUVtracks(){
   updateCamera(delta);
 
   RotateGlobe((source[0]+360/n_iter/n_iter_times*last_i-135)/180.0*Math.PI,last_i);
+
+
+  decimal_hours=(parseInt(last_i)-parseInt(first_i))/(n_iter*n_iter_times-1)*24;
+  hours=Math.floor(((parseInt(last_i)-parseInt(first_i))/(n_iter*n_iter_times-1)*24));
+  minutes=Math.round((decimal_hours-hours)*60);
+  time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
  
  }
 
@@ -421,7 +427,7 @@ play_button.addEventListener('click', function() {
     play=false;
   } else {
     play=true;
-    this.src = "img/Basic_red_dot.png";
+    this.src = "img/pause.svg";
     playLoop=setInterval(function(){
         time_control.value++;
         time_control.dispatchEvent(new Event('input'));

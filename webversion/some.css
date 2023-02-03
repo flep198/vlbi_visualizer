@@ -140,7 +140,7 @@ p {
 
 #time_count {
   font-size: 20px;
-  margin-left: 12%;
+  margin-left: 20% !important;
 }
 
  /* The Modal (background) */
