@@ -42,6 +42,11 @@ p {
     display:none;
 }
 
+#webgl {
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
 .row {
   margin-right: 0px !important;
   margin-left: 0px !important;

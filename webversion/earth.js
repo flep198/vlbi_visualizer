@@ -18,12 +18,18 @@
 
 	var camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 1000);
 	camera.position.z=1.5;
+
+	var initial_z=camera.position.z;
+	var initial_y=camera.position.y;
 	
 
 	function updateCamera(declination){
 		camera.position.z = 1.5*Math.cos(declination);
 		camera.position.y = 1.5*Math.sin(declination);
 		camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+		initial_z=camera.position.z;
+		initial_y=camera.position.y;
 	}
 
 
@@ -39,7 +45,9 @@
 	}
 
 
+
 	window.addEventListener("resize", () => {onWindowResize()});
+
 
 	var renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setSize(width, height);

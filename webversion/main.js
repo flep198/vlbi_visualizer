@@ -745,6 +745,8 @@ input.onchange = function(e) {
   declination=angle()-90;
 }
 
+//size globe
+onWindowResize();
 
 
 
