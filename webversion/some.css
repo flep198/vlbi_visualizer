@@ -236,6 +236,13 @@ cursor: pointer;
   padding-left: 30px;
 }
 
+.declination_slider_text {
+  color:  white;
+  font-size:  20px;
+  text-align:  center;
+  padding-right: 15%;
+}
+
 .Punktquelle_text {
   color: white;
   font-size: 20px;
@@ -467,7 +474,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .select-selected {
-  background-color: DodgerBlue;
+  background-color: #00D1FF !important;
 }
 
 /* Style the arrow inside the select element: */
@@ -500,7 +507,7 @@ input[type=range]:focus::-ms-fill-upper {
 /* Style items (options): */
 .select-items {
   position: absolute;
-  background-color: DodgerBlue;
+  background-color: #00D1FF !important;
   top: 100%;
   left: 0;
   right: 0;

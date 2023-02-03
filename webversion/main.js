@@ -497,7 +497,7 @@ image_select.addEventListener("click",function(){
   ctx_real_image.fillRect(0,0,imgSize,imgSize);
   ctx_real_image.font = "40px Arial";
   ctx_real_image.fillStyle = "#ffffff";
-  ctx_real_image.fillText("Lädt...", imgSize/2, imgSize/2);
+  ctx_real_image.fillText("Lädt...", imgSize/2-50, imgSize/2+15);
   ctx_real_image.fillStyle = "#000000"; 
   new_img.src=image_select.value;
   new_img.addEventListener(
