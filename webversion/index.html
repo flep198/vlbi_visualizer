@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <title>VLBI-Visualizer</title>
+    <title>Black Hole Cam</title>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="some.css" />  
@@ -15,7 +15,7 @@
   </head>
   <body id="markers-on-the-map">
     <div class="page-header">
-        <h1>VLBI-Visualizer</h1>
+        <h1>Black Hole Cam</h1>
     </div>
 
 
@@ -71,7 +71,13 @@
             
           </div>
           <div class="col-md-4">
-            <p class="info_text"> Radioteleskope werden verwendet, um ferne Galaxien oder andere astronmische Objekte in unserem Universum zu beobachten. Das Radioteleskop misst, ähnlich wie ein optisches Teleskop oder Fernrohr, Licht, allerdings kein sichtbares Licht, sondern Radio-Wellen, die von unterschiedlichen Objekten ausgestrahlt wird. Üblicherweise sieht ein Radioteleskop aus wie eine sehr große Satellitenschüssel (kann aber auch andere Formen annehmen), es ist allerdings wesentlich größer als unsere handelsüblichen Satellitenschüsseln. Die Größe ist wichtig, um mehr Strahlung sammeln zu können, da die ausgesendete Radiostrahlung von astronomischen Objekten im allgemeinen nur sehr schwach ist. Das Bild zeigt das größte voll bewegliche Radioteleskop Europas (100m Durchmesser), welches sich in Effelsberg in der Eifel befindet.</p>
+            <p class="info_text"> Radioteleskope werden verwendet, um ferne Galaxien oder andere astronomische Objekte in unserem Universum 
+              zu beobachten. Das Radioteleskop misst, ähnlich wie ein optisches Teleskop oder Fernrohr, Licht, allerdings kein sichtbares Licht,
+               sondern Radio-Wellen, die von unterschiedlichen Objekten ausgestrahlt wird. Üblicherweise sieht ein Radioteleskop aus wie eine 
+               sehr große Satellitenschüssel (kann aber auch andere Formen annehmen), es ist allerdings wesentlich größer als unsere 
+               handelsüblichen Satellitenschüsseln. Die Größe ist wichtig, um mehr Strahlung sammeln zu können, da die ausgesendete Radiostrahlung
+               von astronomischen Objekten im allgemeinen nur sehr schwach ist. Das Bild zeigt das größte voll bewegliche Radioteleskop Europas
+                 (100m Durchmesser), welches sich in Effelsberg in der Eifel befindet.</p>
           </div>
         </div>
 
@@ -83,14 +89,23 @@
         <div class="info-modal-content" id="info-modal-content-2">
           <span class="close" id="close-info-modal-2">&times;</span>
           <div class="row">
-            <div class="col-md-4 text-center">
-              <img class="info_left" src="img/Earth_virtuelles_teleskop.png">
-            </div>
-            <div class="col-md-4 text-center">
-              <img class="info_middle" src="img/Dings_virtuelles_Teleskop.png">
+            <div class="col-md-8 text-center">
+             
+              <img class="gif" src="img/uv_coverage.gif">
             </div>
             <div class="col-md-4">
-              <p class="info_text"> Um hochauflösende Bilder von astronmischen Objekten erstellen zu können, benötigt man im allgemeinen sehr große Teleskope. Je größer ein Teleskop ist, desto hochaufgelöster ("schärfer") kann es Bilder aufnehmen. Ab einer gewissen Teleskopgröße ist es technisch nicht mehr möglich, ein noch größeres Teleskop zu bauen. Mit einer schlauen Idee, für die es 1974 sogar den Nobelpreis gab kann man sich allerdings Abhilfe schaffen: Man kann mehrere Teleskope (auch mit großem Abstand zueinander) zu einem großen virtuellen Teleskop zusammenschließen, um eine fast beliebig große Auflösung zu erhalten. Diese Technik wird auch als Radiointerferometrie bezeichnet, oder bei großen Abständen der Teleskope auch Very Long Baseline Interferometry (VLBI). Entscheidend für die Auflösung und Bildqualität sind dabei die Verbindungslinien ("Baselines") zwischen allen Teleskopen in diesem Verbund und deren Länge. Das virtuelle Teleskop bildet sich aus Richtung und Länge dieser Verbindungslinien in Blickrichtung zur beobachteten Quelle. Durch die Erdrotation verändern sich die Baselines im Laufe eines Tages (projeziert auf die Ebene der beobachteten Quelle (welche unbewegt am Himmel ist) und man kann so durch längere Beobachtungszeit die Ausmaße des virtuellen Teleskopes und damit am Ende die Bildqualität verbessern.</p>
+              <h1>Virtuelles Teleskop</h1>
+              <p class="info_text"> Um hochauflösende Bilder von astronomischen Objekten erstellen zu können, benötigt man im Allgemeinen sehr 
+                große Teleskope. Je größer ein Teleskop ist, desto hochaufgelöster ("schärfer") kann es Bilder aufnehmen. Ab einer gewissen 
+                Teleskopgröße ist es technisch nicht mehr möglich ein noch größeres Teleskop zu bauen. Mit einer schlauen Idee, für die es 1974 
+                sogar den Nobelpreis gab, kann man sich allerdings Abhilfe schaffen: Man kann mehrere Teleskope (auch mit großem Abstand 
+                zueinander) zu einem großen virtuellen Teleskop zusammenschließen, um eine fast beliebig große Auflösung zu erhalten. Diese 
+                Technik wird auch als Radiointerferometrie bezeichnet, oder bei großen Abständen der Teleskope auch Very Long Baseline 
+                Interferometry (VLBI). Entscheidend für die Auflösung und Bildqualität sind dabei die Verbindungslinien 
+                ("Baselines") zwischen allen Teleskopen in diesem Verbund und deren Länge. Das virtuelle Teleskop bildet sich aus Richtung und 
+                Länge dieser Verbindungslinien in Blickrichtung zur beobachteten Quelle. Durch die Erdrotation verändern sich die Baselines im 
+                Laufe eines Tages (projeziert auf die Ebene der beobachteten Quelle (welche unbewegt am Himmel ist) und man kann so durch längere
+                Beobachtungszeit die Ausmaße des virtuellen Teleskopes und damit am Ende die Bildqualität verbessern.</p>
             </div>
           </div>
         </div>
@@ -101,7 +116,13 @@
       <div id="info-modal-3" class="info-modal">
         <div class="info-modal-content" id="info-modal-content-3">
           <span class="close" id="close-info-modal-3">&times;</span>
-          Das finale Bild, welches vom Teleskopverbund erstellt wird, entsteht durch komplexe Rückrechnung (Fourier-Transformation), der Signale, die von den unterschiedlichen Baselines aufgezeichnet wurden. Im Allgemeinen enthält diese Roh-Bild noch viele Artefakte und die echte Struktur der beobachteten Quelle ist nur bedingt zu erkennen. Durch durch geeignete Rekrunstruktionsverfahren kann man dieses finale Bild noch verbessern um mehr Detailreichtum der beobachteten Quelle zu sehen. 
+          <div class="col-md-4">
+            <p class="info_text">Das finale Bild, welches vom Teleskopverbund erstellt wird, entsteht durch komplexe Rückrechnung 
+              (Fourier-Transformation), der Signale, die von den unterschiedlichen Baselines aufgezeichnet wurden. Im Allgemeinen
+               enthält diese Roh-Bild noch viele Artefakte und die echte Struktur der beobachteten Quelle ist nur bedingt zu erkennen.
+               Durch durch geeignete Rekrunstruktionsverfahren kann man dieses finale Bild noch verbessern um mehr Detailreichtum 
+               der beobachteten Quelle zu sehen.</p>
+          </div>
         </div>
 
       </div>
@@ -137,8 +158,8 @@
                   
                 </div>
                 <div class="col-md-4 text-center">
-                  <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop.svg"/>
-                  <p class="image_map_text">Teleskop hinzufügen</p>
+                  <input type="image" id="add_tel_button" img class="Teleskop" src="img/Teleskop_blau.svg"/>
+                  <p class="teleskop_hinzufügen">Teleskop hinzufügen</p>
                 </div>
                 <div class="col-md-8 text-center">
                   <button type="button" id="measure_button">Beobachtung starten</button>

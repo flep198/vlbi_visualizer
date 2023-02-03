@@ -177,8 +177,11 @@ p {
 .close {
   color: rgb(255, 255, 255);
   float: right;
-  font-size: 40px !important;
+  font-size: 5vmin !important;
   font-weight: bold;
+  margin-left: 2%;
+  margin-top: 1%;
+  margin-right: 2%;
 }
 
 .close:hover,
@@ -297,10 +300,14 @@ cursor: pointer;
   padding-top:30%;
 
 }
+.gif {
+  width: 90%;
+  padding-top: 15%;
+}
 
 .info_text {
-  font-size: 150%;
-  padding-top: 20%;
+  font-size: 2vmin;
+  padding-top: 7%;
 }
 
 
