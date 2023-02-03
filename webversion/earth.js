@@ -35,10 +35,10 @@
 
 	function onWindowResize() {
 
-			camera.aspect = $(webglEl).width()/$(webglEl).height();
+			camera.aspect = 1;
 			camera.updateProjectionMatrix();
 
-			renderer.setSize( $(webglEl).width(), $(webglEl).height());
+			renderer.setSize( $(webglEl).width(), $(webglEl).width());
 
 			render();
 
