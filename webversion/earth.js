@@ -27,6 +27,20 @@
 	}
 
 
+	function onWindowResize() {
+
+			camera.aspect = $(webglEl).width()/$(webglEl).height();
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( $(webglEl).width(), $(webglEl).height());
+
+			render();
+
+	}
+
+
+	window.addEventListener("resize", () => {onWindowResize()});
+
 	var renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setSize(width, height);
 	renderer.autoClear = false;
