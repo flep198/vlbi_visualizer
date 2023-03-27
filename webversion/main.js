@@ -223,15 +223,45 @@ function updateUVtracks(){
   hours=Math.floor(((parseInt(last_i)-parseInt(first_i))/(n_iter*n_iter_times-1)*24));
   minutes=Math.round((decimal_hours-hours)*60);
   time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
- 
+  score.innerText="Rekonstruktionslevel: " + getScore().toFixed(2).toString() + "%"; 
  }
 
 function getFourierIndex(n){
   return Math.floor(n/n_iter_times);
 }
 
+//determines current score for the reconstructed image
+function getScore(){
+  var ideal_image=[];
 
-function DrawFourierCanvas(u_v_grid){
+  var imageData=ctx_real_image.getImageData(0, 0, imgSize, imgSize);
+  for (var ai = 0; ai < imageData.data.length; ai+=4) {
+    // greyscale, so you only need every 4th value
+    ideal_image.push(imageData.data[ai]);
+  }
+
+  var currentRecImage= ctx_image.getImageData(
+    0, 0, imgSize, imgSize);
+
+  var score_image=[];
+
+  for (var ai = 0; ai < currentRecImage.data.length; ai+=4) {
+    // greyscale, so you only need every 4th value
+    score_image.push(currentRecImage.data[ai]);
+  }
+
+
+  //calculate difference
+  var diff=0
+  for (var ai=0; ai<score_image.length;ai++){
+    diff=diff+Math.abs(ideal_image[ai]-score_image[ai]);
+  }
+
+  return (1-diff/(256*score_image.length))*100;
+
+}
+
+function DrawFourierCanvas(u_v_grid){  
 
   var h_primes = [];
   var h_hats = $h2();
@@ -441,6 +471,7 @@ play_button.style.display = 'none';
 
 
 var time_count = document.getElementById("time_count");
+var score = document.getElementById("score");
 
 var time_control = document.getElementById("time_control");
 time_control.addEventListener('input', function () {
@@ -453,6 +484,7 @@ time_control.addEventListener('input', function () {
   hours=Math.floor(((indx-parseInt(first_i))/(n_iter*n_iter_times-1)*24));
   minutes=Math.round((decimal_hours-hours)*60);
   time_count.innerText="Beobachtungszeit " + hours.toString().padStart(2, '0')+":"+minutes.toString().padStart(2, '0')+" h";
+  score.innerText="Rekonstruktionslevel: " + getScore().toFixed(2).toString() + "%";
   }, false);
 time_control.step=0.0001;
 time_control.style.display = 'none';
