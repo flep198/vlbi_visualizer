@@ -1,8 +1,8 @@
 //initialize map
 var map = L.map('map').setView([50.35805, 10.0636], 3);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+L.tileLayer('atlas/{z}/{x}/{y}.jpg', {
+    maxZoom: 6,
+    minZoom: 1
 }).addTo(map);
 
 //initial setup
@@ -355,32 +355,6 @@ function addDraggableMarker(map, latitude, longitude){
   return marker;
 }
 
-
-
-/**
- * Boilerplate map initialization code starts below:
-
-var defaultLayers = platform.createDefaultLayers();
-
-//Step 2: initialize a map
-var map = new H.Map(document.getElementById('map'),
-  defaultLayers.vector.normal.map, {
-  center: {lat:50.35805, lng:10.0636},
-  zoom: 3,
-  pixelRatio: window.devicePixelRatio || 1
-});
-// add a resize listener to make sure that the map occupies the whole container
-window.addEventListener('resize', () => map.getViewPort().resize());
-
-//Step 3: make the map interactive
-// MapEvents enables the event system
-// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
-var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-// Step 4: Create the default UI:
-var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
-
-*/
 
 var telescopes = [];
 var count_telescopes= 0;
