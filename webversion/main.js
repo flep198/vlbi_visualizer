@@ -1,13 +1,9 @@
-/**
- * Adds a  draggable marker to the map..
- *
- * @param {H.Map} map                      A HERE Map instance within the
- *                                         application
- * @param {H.mapevents.Behavior} behavior  Behavior implements
- *                                         default interactions for pan/zoom
- */
-
-
+//initialize map
+var map = L.map('map').setView([50.35805, 10.0636], 3);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
 //initial setup
 let r_e=6731; //Earth Radius in Kilometers
@@ -60,7 +56,7 @@ function updateUVtracks(){
 
   //update source declination
   source = [200, declination];
-  elev_lim=parseInt(elev_lim_control.value); //elevetion limit for telescopes in degree
+  elev_lim=parseInt(elev_lim_control.value); //elevation limit for telescopes in degree
 
   //calculate u-v transformation matrix from source coordinates
   let H_var=source[0]/180*Math.PI;
@@ -115,11 +111,11 @@ function updateUVtracks(){
     let tel_visible=[]; //array to store boolean information whether telescope can see the source or not
     //for loop to set tels and tel_visible values
     for (let j=0; j<telescopes.length;j++){
-       	let new_lng=telescopes[j].getGeometry().lng+t;
+       	let new_lng=telescopes[j].getLatLng().lng+t;
         if(new_lng>180){
             new_lng=new_lng-360;
         }
-        let tel=Pol2Cart(r_e,new_lng,telescopes[j].getGeometry().lat);
+        let tel=Pol2Cart(r_e,new_lng,telescopes[j].getLatLng().lat);
         tels[j]=tel;
 
           //determine whether source is visible to telescope
@@ -207,7 +203,7 @@ function updateUVtracks(){
   //Draw 3D globe
   locations = [];
   for (j=0;j<telescopes.length;j++){
-    locations.push({"latitude": telescopes[j].getGeometry().lat, "longitude": telescopes[j].getGeometry().lng})
+    locations.push({"latitude": telescopes[j].getLatLng().lat, "longitude": telescopes[j].getLatLng().lng})
   } 
 
 
@@ -346,61 +342,24 @@ for (y=0; y < img_data.length; y++){
 }
 
 
-function addDraggableMarker(map, behavior, latitude, longitude){
+function addDraggableMarker(map, latitude, longitude){
 
-  var icon = new H.map.Icon('img/Teleskop.svg',{ size: { w: 56, h: 56 }});
+  var newicon = new L.Icon({iconUrl: 'img/Teleskop.png',iconAnchor: [25,50]});
 
-  var marker = new H.map.Marker({lat:latitude, lng:longitude}, {
-    // mark the object as volatile for the smooth dragging
-    volatility: true,
-    icon: icon
-  });
-  // Ensure that the marker can receive drag events
-  marker.draggable = true;
-  map.addObject(marker);
+  var marker = new L.marker([latitude,longitude],{
+    draggable: true,
+    autoPan: false,
+    icon: newicon
+  }).addTo(map);
 
-  // disable the default draggability of the underlying map
-  // and calculate the offset between mouse and target's position
-  // when starting to drag a marker object:
-  map.addEventListener('dragstart', function(ev) {
-    var target = ev.target,
-        pointer = ev.currentPointer;
-    if (target instanceof H.map.Marker) {
-      var targetPosition = map.geoToScreen(target.getGeometry());
-      target['offset'] = new H.math.Point(pointer.viewportX - targetPosition.x, pointer.viewportY - targetPosition.y);
-      behavior.disable();
-    }
-  }, false);
-
-
-  // re-enable the default draggability of the underlying map
-  // when dragging has completed
-  map.addEventListener('dragend', function(ev) {
-  	//when dragging is complete update uv coverage and other plots
-    var target = ev.target;
-    if (target instanceof H.map.Marker) {
-      behavior.enable();
-    }
-  }, false);
-
-  // Listen to the drag event and move the position of the marker
-  // as necessary
-   map.addEventListener('drag', function(ev) {
-    var target = ev.target,
-        pointer = ev.currentPointer;
-    if (target instanceof H.map.Marker) {
-      target.setGeometry(map.screenToGeo(pointer.viewportX - target['offset'].x, pointer.viewportY - target['offset'].y));
-    }
-  }, false);
-  
-return marker;
+  return marker;
 }
 
 
 
 /**
  * Boilerplate map initialization code starts below:
- */
+
 var defaultLayers = platform.createDefaultLayers();
 
 //Step 2: initialize a map
@@ -421,13 +380,15 @@ var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 // Step 4: Create the default UI:
 var ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
 
+*/
+
 var telescopes = [];
 var count_telescopes= 0;
 
 //add event listener to Add Telescope button
 var add_tel_button = document.getElementById("add_tel_button");
 add_tel_button.addEventListener('click', function() { 
-	var marker_new=addDraggableMarker(map,behavior,map.getCenter().lat,map.getCenter().lng);
+	var marker_new=addDraggableMarker(map,map.getCenter().lat,map.getCenter().lng);
   telescopes[count_telescopes]=marker_new;
   count_telescopes++;
   }, false);
@@ -626,7 +587,7 @@ var checkboxes = [];
 
 function addTelescopesToMap(tel_locations){
   for (i=0;i<tel_locations.length;i++){
-    var marker_new=addDraggableMarker(map,behavior,tel_locations[i][0],tel_locations[i][1]);
+    var marker_new=addDraggableMarker(map,tel_locations[i][0],tel_locations[i][1]);
     telescopes[count_telescopes]=marker_new;
     count_telescopes++;
   };
@@ -639,7 +600,7 @@ function removeAllTelescopesFromMap(){
     }
   }
   for (let i=0;i<telescopes.length;i++){
-    removeTelescopesFromMap([[telescopes[i].getGeometry().lat,telescopes[i].getGeometry().lng]]);
+    removeTelescopesFromMap([[telescopes[i].getLatLng().lat,telescopes[i].getLatLng().lng]]);
   }
 }
 
@@ -648,7 +609,7 @@ function removeTelescopesFromMap(tel_locations){
     for (i=0;i<tel_locations.length;i++){    
 
       function checkTel(telescope) {
-        return telescope.getGeometry().lat==tel_locations[i][0] && telescope.getGeometry().lng==tel_locations[i][1];
+        return telescope.getLatLng().lat==tel_locations[i][0] && telescope.getLatLng().lng==tel_locations[i][1];
       };
 
       const index = telescopes.findIndex(checkTel);
