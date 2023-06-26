@@ -589,7 +589,7 @@ function removeTelescopesFromMap(tel_locations){
       const index = telescopes.findIndex(checkTel);
 
       if (index > -1) {
-        map.removeObject(telescopes[index]);
+        map.removeLayer(telescopes[index]);
         telescopes.splice(index, 1);
         count_telescopes--;
       }
