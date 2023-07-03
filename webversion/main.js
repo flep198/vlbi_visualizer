@@ -210,7 +210,7 @@ function updateUVtracks(){
   DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
   DrawUVCanvas(u_v_grid,ctx_uv_map,canvas_uv_map)
 
-  //compute FT transforms
+  //compute FT transforms (images)
   for (let aidx=parseInt(first_i);aidx<=last_i; aidx=aidx+n_iter_times){
       setTimeout(function(){
         progress_bar.style.width=Math.round((aidx-first_i)/(last_i-first_i)*100) + "%";

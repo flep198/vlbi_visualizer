@@ -1,5 +1,0 @@
-Before running the webversion one needs to create a file called connect_api.js in the "webversion" folder, specifying a API_Key for HERE maps usage, like the following
-
-var platform = new H.service.Platform({
-  apikey: "Your Key Here"
-});
