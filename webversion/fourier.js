@@ -5,6 +5,7 @@
 | @date 2014/06/14 |
 | @edit 2017/01/23 |
 \******************/
+//modified by F.Eppel
 
 var Fourier = (function() {
   /******************

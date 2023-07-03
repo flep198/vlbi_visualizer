@@ -6,15 +6,21 @@ L.tileLayer('atlas/{z}/{x}/{y}.jpg', {
 }).addTo(map);
 
 //initial setup
+var wavelength=0.1; //Observing Wavelength in cm
 let r_e=6731; //Earth Radius in Kilometers
 let imgSize=256; //pixelsize of image
-let plotLim=15000; //max plot length of baselines
+var imgSizeAstro=0.2; //image size in mas
+let plotLim=15000; //max plot length of baselines in km
 let n_iter=48; //number of iterations for fourier transform
-let cc = 9e-6 //contrast constant
+let cc = 9e-6; //contrast constant
 let n_iter_times=15; //n_iter*n_iter_times samples of the uv coverage will be calculated, has to be smaller than n_iter
 const full_spin_time=40000; //time in milli-seconds for one full spin in play mode
 
+//max baseline length used for uv_grid calculation
+let plotLim_calc=imgSize*wavelength/(imgSizeAstro/1000/60/60/180*Math.PI)/100000/2;
 
+
+//function to transform polar coordinates to cartesian coordinates
 function Pol2Cart(r,phi,delta){
 let x = r*Math.cos(delta/180*Math.PI)*Math.cos(phi/180*Math.PI);
 let y = -r*Math.cos(delta/180*Math.PI)*Math.sin(phi/180*Math.PI);
@@ -29,20 +35,32 @@ var h_ft_image=[];
 //Globe Telescope Locations
 let locations = [];
 
+//Declination of Source
 var declination = 0;
 
-let source = [0,0];
+//Source position
+let source = [0,declination];
 
+//variable to save the iteration index where to start animation
 let first_i=0;
 
+//variable to save the iteration index where to end the observation 
 let last_i=0;  
 
-  
+//array to save multiple 2d arrays with the "virtual telescope" as it gradually builds up (display version)
 let u_v_grids=[];
+
+//same thing, but with different resolution, used for calculation of the final image
+let u_v_grids_calc=[];
+
+
+//array to save images corresponding to every virtual telescope step
 let images=[];
 
+//elevation limit of the telescopes
 var elev_lim=0;
 
+//arrray to store boolean whether telescopes can see the source during a certain time step
 let tel_visibles=[];
 
 //progress bar
@@ -58,7 +76,7 @@ function updateUVtracks(){
   source = [200, declination];
   elev_lim=parseInt(elev_lim_control.value); //elevation limit for telescopes in degree
 
-  //calculate u-v transformation matrix from source coordinates
+  //calculate u-v transformation matrix from source coordinates (this is important to calculate virtual telescope)
   let H_var=source[0]/180*Math.PI;
   let delta=source[1]/180*Math.PI;
 
@@ -68,6 +86,7 @@ function updateUVtracks(){
 
   let source_vector=Pol2Cart(r_e,source[0],source[1]);
 
+  //this function calculates one uv-position/baseline, given two telescope coordinates and the source matrix
   function getUV(Tel1,Tel2,matrix){
     let baseline=[Tel2[0]-Tel1[0],Tel2[1]-Tel1[1],Tel2[2]-Tel1[2]];
     return [matrix[0][0]*baseline[0]+matrix[0][1]*baseline[1]+matrix[0][2]*baseline[2],
@@ -78,16 +97,17 @@ function updateUVtracks(){
 	//calculate number of baselines
 	let n_baselines=Math.round(count_telescopes*(count_telescopes-1)/2);
 
+  //pixel size for images to display
 	let pixelSize=plotLim*2/imgSize;
-
-	//create array to save uv_tracks for every baseline
-	let u_v_tracks=[];
   
+  //pixel size for uv_coverage used for calculation
+  var pixelSize_calc=plotLim_calc*2/imgSize
+
+
   let u_v_grid=Array(imgSize).fill().map(() => Array(imgSize).fill(0)); //create uv_coverage image
+  let u_v_grid_calc=Array(imgSize).fill().map(() => Array(imgSize).fill(0)); //create uv_coverage used for calculation
   
   let image=[]; //create image
-  
-	let u_v_track=Array(n_baselines).fill().map(() => Array(2).fill([]));
 
   let first=true;
 
@@ -97,13 +117,13 @@ function updateUVtracks(){
   tel_visibles=[];
 
   //start with empty image first
-  u_v_tracks.push(JSON.parse(JSON.stringify(u_v_track)));
   u_v_grids.push(JSON.parse(JSON.stringify(u_v_grid)));
-
+  u_v_grids_calc.push(JSON.parse(JSON.stringify(u_v_grid_calc)))
   
+  //loop to calculate virtual telescope/uv-coverage and image for every time step
   for (let i = 0; i < n_iter*n_iter_times; i++) {
 
-    let t=360/n_iter/n_iter_times*i;
+    let t=360/n_iter/n_iter_times*i; //earth rotation angle at this specific time step (full rotation is 360 deg after 24 h)
 
     
     //convert all telescope positions to cartesian coordinates
@@ -146,20 +166,36 @@ function updateUVtracks(){
                       var u=baseline_uv[0];
                       var v=baseline_uv[1];
 
-                      //append new u_v point to baseline u_v track
-                      //u_v_track[baseline_count][0].push(u);
-                      //u_v_track[baseline_count][1].push(v);
-
-                      //change u_v_sampling grid
+                      //change to u_v_sampling grid (image)
                       var x_ind=Math.floor((u+plotLim)/pixelSize);
                       var y_ind=Math.floor((v+plotLim)/pixelSize);
 
+                      //change to u_v_sampling grid (calculation)
+                      var x_ind_calc=Math.floor((u+plotLim_calc)/pixelSize_calc);
+                      var y_ind_calc=Math.floor((v+plotLim_calc)/pixelSize_calc);
+
+                      if (y_ind<imgSize && y_ind>=0 && x_ind<imgSize && x_ind>=0){
                       u_v_grid[y_ind][x_ind]=1;
+                      }
+                      if (y_ind_calc<imgSize && y_ind_calc>=0 && x_ind_calc<imgSize && x_ind_calc>=0){
+                      u_v_grid_calc[y_ind_calc][x_ind_calc]=1;                
+                      }    
+
+                      //do the same thing for symmetric baseline
 
                       var x_ind=Math.floor((-u+plotLim)/pixelSize);
                       var y_ind=Math.floor((-v+plotLim)/pixelSize);
 
+                      //change to u_v_sampling grid (calculation)
+                      var x_ind_calc=Math.floor((-u+plotLim_calc)/pixelSize_calc);
+                      var y_ind_calc=Math.floor((-v+plotLim_calc)/pixelSize_calc);
+
+                      if (y_ind<imgSize && y_ind>=0 && x_ind<imgSize && x_ind>=0){
                       u_v_grid[y_ind][x_ind]=1;
+                      }
+                      if (y_ind_calc<imgSize && y_ind_calc>=0 && x_ind_calc<imgSize && x_ind_calc>=0){
+                      u_v_grid_calc[y_ind_calc][x_ind_calc]=1;
+                      }
 
                       last_i=i;
 									}
@@ -167,8 +203,8 @@ function updateUVtracks(){
                }
             }
       }
-      u_v_tracks[i]=JSON.parse(JSON.stringify(u_v_track)); //JSON parse part save array in current status so it doesnt get overwritten
-      u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid));
+      u_v_grids[i]=JSON.parse(JSON.stringify(u_v_grid)); //JSON parse part save array in current status so it doesnt get overwritten
+      u_v_grids_calc[i]=JSON.parse(JSON.stringify(u_v_grid_calc));
       }
 
   DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
@@ -178,7 +214,7 @@ function updateUVtracks(){
   for (let aidx=parseInt(first_i);aidx<=last_i; aidx=aidx+n_iter_times){
       setTimeout(function(){
         progress_bar.style.width=Math.round((aidx-first_i)/(last_i-first_i)*100) + "%";
-        DrawFourierCanvas(u_v_grids[aidx]);
+        DrawFourierCanvas(u_v_grids_calc[aidx]);
         if (aidx>=last_i-n_iter_times+1){
           setTimeout(function(){
             loading_screen.style.display = 'none';
@@ -215,6 +251,7 @@ function updateUVtracks(){
   RotateGlobe((source[0]+360/n_iter/n_iter_times*last_i-135)/180.0*Math.PI,last_i);
 
 
+  //calculate some time data to display
   decimal_hours=(parseInt(last_i)-parseInt(first_i))/(n_iter*n_iter_times-1)*24;
   hours=Math.floor(((parseInt(last_i)-parseInt(first_i))/(n_iter*n_iter_times-1)*24));
   minutes=Math.round((decimal_hours-hours)*60);
@@ -473,6 +510,18 @@ image_select.addEventListener("click",function(){
   ctx_real_image.fillText("Lädt...", imgSize/2-50, imgSize/2+15);
   ctx_real_image.fillStyle = "#000000"; 
   new_img.src=image_select.value;
+  //set astrophysical sizes of images
+  if (image_select.value=="img/Punktquelle.png"){
+    imgSizeAstro=100 //mas
+  } else if (image_select.value=="img/ehtSgr.jpg"){
+    imgSizeAstro=0.2 //mas
+  } else if (image_select.value=="img/ehtM87.jpg"){
+    imgSizeAstro=0.2 //mas
+  } else if (image_select.value=="img/HerculesA.jpg"){
+    imgSizeAstro=12000 //mas
+  }
+  plotLim_calc=imgSize*wavelength/(imgSizeAstro/1000/60/60/180*Math.PI)/100000/2;
+  pixelSize_calc=plotLim_calc*2/imgSize;
   new_img.addEventListener(
   "load",
   () => {
@@ -761,6 +810,22 @@ input.oninput = function(e) {
 input.onchange = function(e) {
   declination=angle()-90;
 }
+
+//Frequency Range Slider
+var slider_freq = document.getElementById("slider_freq");
+var output_freq = document.getElementById("output_freq");
+output_freq.innerHTML = (Math.pow(10,slider_freq.value/100)/Math.pow(10,10)*230).toFixed(1).toString(); // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider_freq.oninput = function() {
+  output_freq.innerHTML = (Math.pow(10,slider_freq.value/100)/Math.pow(10,10)*230.).toFixed(1).toString();
+  //update wavelength variable
+  wavelength=3/(Math.pow(10,slider_freq.value/100)/Math.pow(10,10)*230)*10;
+  plotLim_calc=imgSize*wavelength/(imgSizeAstro/1000/60/60/180*Math.PI)/100000/2;
+  pixelSize_calc=plotLim_calc*2/imgSize;
+} 
+
+
 
 //size globe
 onWindowResize();
