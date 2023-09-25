@@ -183,7 +183,7 @@
 
       </div>
 
-            <!-- info modal for TANAMI-->
+      <!-- info modal for TANAMI-->
       <div id="info-modal-tanami" class="info-modal">
         <div class="info-modal-content" id="info-modal-content-tanami">
           <span class="close" id="close-info-modal-tanami">&times;</span>
@@ -194,6 +194,23 @@
             </div>
             <div class="col-md-8 text-center">
               <img class="vlba_image" src="img/tanami.jpg">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- info modal for ngVLA -->
+      <div id="info-modal-ngVLA" class="info-modal">
+        <div class="info-modal-content" id="info-modal-content-ngVLA">
+          <span class="close" id="close-info-modal-ngVLA">&times;</span>
+          <div class="row">
+            <div class="col-md-4">
+              <h1>ngVLA</h1>
+              <p class="info_text"> Das next-generation VLA (ngVLA) ist ein zukünftiges Zentimeter bis Millimeter-Interferometer, das auf dem Erbe des JVLA, ALMA und des VLBA aufbaut und die nächste große Einrichtung in der bodengestützten US-Radioastronomie darstellt. Das ngVLA ist für Beobachtungen bei Wellenlängen zwischen der hervorragenden Leistung von ALMA bei Wellenlängen im Sub-mm-Bereich und dem zukünftigen SKA1-MID bei längeren (dezimetrischen) Wellenlängen optimiert. In dieser Simulation sind die Teleskope mit den längsten Basislinien (ngVLA-LBA) dargestellt. (Bild: Sophia Dagnello, NRAO/AUI/NSF)</p>
+            </div>
+            <div class="col-md-8 text-center">
+              <img class="vlba_image" src="img/ngVLA.jpg">
             </div>
           </div>
         </div>
@@ -231,6 +248,10 @@
                     <input type="checkbox" id="tanami" name="tanami">
                     <label for="tanami">TANAMI </label>
                     <input type="image" id="info-modal-button-tanami" img class="info" src="img/info.svg"/>
+
+                    <input type="checkbox" id="ngVLA" name="ngVLA">
+                    <label for="ngVLA">ngVLA </label>
+                    <input type="image" id="info-modal-button-ngVLA" img class="info" src="img/info.svg"/>
                   </div>
                   
                 </div>
@@ -239,9 +260,6 @@
                   <p class="teleskop_hinzufügen">Teleskop hinzufügen</p>
                 </div>
                 <div class="col-md-8 text-center">
-                  <p class="Punktquelle_text">Frequenz:</p>
-                    <input type="range" min="800" max="1000" value="84" class="slider_freq" id="slider_freq">
-                    <p class="Punktquelle_text"><div id="output_freq" class="Punktquelle_text"></div> GHz</p>
                   <button type="button" id="measure_button">Beobachtung starten</button>
                 </br>
                   <button type="button" id="reset_button">Zurücksetzen</button>
@@ -270,6 +288,11 @@
                 </select>
                 <canvas id="canvas_real_image" class="Punktquelle"></canvas>
                 <!--<img class= "Punktquelle" src="img/Punktquelle.png">-->
+                <div class="col-md-12 text center">
+                  <p class="Punktquelle_text">Frequenz [GHz]</p>
+                  <input type="range" min="800" max="1000" value="84" class="slider_freq" id="slider_freq">
+                    <p class="Punktquelle_text"><div id="output_freq" class="Punktquelle_text"></div></p>
+                </div>
             </div>
             <div class="col-md-2 text-right">
               <p class="image_map_text">Virtuelles Teleskop</p>

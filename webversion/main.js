@@ -114,6 +114,7 @@ function updateUVtracks(){
   first_i=0;
   last_i=0;
 
+  //array to store whether telescopes can see the source at given time
   tel_visibles=[];
 
   //start with empty image first
@@ -207,6 +208,7 @@ function updateUVtracks(){
       u_v_grids_calc[i]=JSON.parse(JSON.stringify(u_v_grid_calc));
       }
 
+  //Create Plot of uv-coverage/virtual telescope
   DrawUVCanvas(u_v_grid,ctx_uv,canvas_uv);
   DrawUVCanvas(u_v_grid,ctx_uv_map,canvas_uv_map)
 
@@ -516,7 +518,7 @@ image_select.addEventListener("click",function(){
   } else if (image_select.value=="img/ehtSgr.jpg"){
     imgSizeAstro=0.2 //mas
   } else if (image_select.value=="img/ehtM87.jpg"){
-    imgSizeAstro=0.2 //mas
+    imgSizeAstro=0.1 //mas
   } else if (image_select.value=="img/HerculesA.jpg"){
     imgSizeAstro=12000 //mas
   }
@@ -709,6 +711,19 @@ tanami.addEventListener('change', function() {
   changeCheckboxAction();
 });
 
+var ngVLA = document.getElementById('ngVLA');
+
+var ngVLA_locations=[[17.756666666666668, -64.58361111111111], [18.344166666666666, -66.75277777777778], [42.933611111111105, -71.98666666666666], 
+  [41.771388888888886, -91.57416666666666], [30.634999999999998, -103.94472222222223], [35.775, -106.24555555555555], [34.301111111111105, -108.11916666666666],
+   [31.95638888888889, -111.6125], [37.23166666666667, -118.27694444444444], [48.13111111111111, -119.68333333333334], [49.3, -119.6], [19.80138888888889, -155.45555555555555],
+    [22.12666666666667, -159.665], [42.613055555555555, -71.49388888888889], [34.08305555555556, -107.64], [33.20944444444445, -106.05416666666666], 
+    [33.47222222222222, -101.205], [31.954722222222223, -108.565], [28.415555555555553, -108.36], [34.12861111111111, -110.09972222222221]];
+checkboxes.push({"box": ngVLA, "locations": ngVLA_locations});
+
+ngVLA.addEventListener('change', function() {
+  changeCheckboxAction();
+});
+
 changeCheckboxAction();
 
 
@@ -787,6 +802,17 @@ info_modal_btn_tanami.addEventListener('click', function() {
   map_modal.style.display="none";});
 info_modal_span_tanami.addEventListener('click', function() {
   info_modal_tanami.style.display = "none";
+  map_modal.style.display="block";});
+
+//info modal for ngVLA
+var info_modal_ngvla = document.getElementById("info-modal-ngVLA");
+var info_modal_btn_ngvla = document.getElementById("info-modal-button-ngVLA");
+var info_modal_span_ngvla = document.getElementById("close-info-modal-ngVLA");
+info_modal_btn_ngvla.addEventListener('click', function() {
+  info_modal_ngvla.style.display = "block";
+  map_modal.style.display="none";});
+info_modal_span_ngvla.addEventListener('click', function() {
+  info_modal_ngvla.style.display = "none";
   map_modal.style.display="block";});
 
 
