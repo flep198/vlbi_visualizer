@@ -853,6 +853,8 @@ slider_freq.oninput = function() {
   pixelSize_calc=plotLim_calc*2/imgSize;
 } 
 
+slider_freq.dispatchEvent(new Event('input'));
+
 
 
 //size globe
