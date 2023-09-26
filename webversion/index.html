@@ -141,7 +141,7 @@
                  der beobachteten Quelle zu sehen. Das Bild rechts zeigt das fertig rekonstruierte Bild des schwarzen Lochs im Zentrum der Galaxie M87.</p>
             </div>
             <div class="col-md-8 text-center">
-              <img id="eht_image_result" src="img/ehtM87.jpg">
+              <img id="eht_image_result" src="img/ehtM87_real.jpg">
             </div>
           </div>
         </div>
@@ -207,7 +207,7 @@
           <div class="row">
             <div class="col-md-4">
               <h1>ngVLA</h1>
-              <p class="info_text"> Das next-generation VLA (ngVLA) ist ein zukünftiges Zentimeter bis Millimeter-Interferometer, das auf dem Erbe des JVLA, ALMA und des VLBA aufbaut und die nächste große Einrichtung in der bodengestützten US-Radioastronomie darstellt. Das ngVLA ist für Beobachtungen bei Wellenlängen zwischen der hervorragenden Leistung von ALMA bei Wellenlängen im Sub-mm-Bereich und dem zukünftigen SKA1-MID bei längeren (dezimetrischen) Wellenlängen optimiert. In dieser Simulation sind die Teleskope mit den längsten Basislinien (ngVLA-LBA) dargestellt. (Bild: Sophia Dagnello, NRAO/AUI/NSF)</p>
+              <p class="info_text"> Das next-generation VLA (ngVLA) ist ein zukünftiges Zentimeter bis Millimeter-Interferometer, das auf dem Erbe des JVLA, ALMA und des VLBA aufbaut und die nächste große Einrichtung in der bodengestützten US-Radioastronomie darstellt. Das ngVLA ist für Beobachtungen bei Wellenlängen zwischen der hervorragenden Leistung von ALMA bei Wellenlängen im Sub-mm-Bereich und dem zukünftigen SKA1-MID bei längeren (dezimetrischen) Wellenlängen optimiert. In dieser Simulation sind die Teleskope mit den längsten Basislinien (ngVLA-LBA) und einige repräsentative Antennen des MID-Arrays dargestellt. (Bild: Sophia Dagnello, NRAO/AUI/NSF)</p>
             </div>
             <div class="col-md-8 text-center">
               <img class="vlba_image" src="img/ngVLA.jpg">
@@ -280,10 +280,11 @@
               <!--<input type="file" name="photo" id="image" accept="image/*">-->
                 <p class="Punktquelle_text">Was willst <br> du beobachten?</p>
                 <select id="image_select" class="custom-select" name="image_select">
-                  <option value="img/Punktquelle.png">Punktquelle</option>
-                  <option value="img/ehtSgr.jpg">SgrA*</option>
-                  <option selected value="img/ehtM87.jpg">M87</option>
-                  <option value="img/HerculesA.jpg">Hercules A</option>
+                  <!--option value="img/Punktquelle.png">Punktquelle</option-->
+                  <option value="img/ngc315.png">NGC 315 (MOJAVE)</option>
+                  <option value="img/ehtSgr.jpg">SgrA* (EHT Collaboration)</option>
+                  <option selected value="img/ehtM87.jpg">M87 (EHT Collaboration, simulated)</option>
+                  <option value="img/HerculesA.jpg">Hercules A (NRAO/AUI/NSF)</option>
                   <!--option value="img/norbert-diedrich.jpg">Norbert Diedrich</option>-->
                 </select>
                 <canvas id="canvas_real_image" class="Punktquelle"></canvas>

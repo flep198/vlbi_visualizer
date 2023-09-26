@@ -521,6 +521,8 @@ image_select.addEventListener("click",function(){
     imgSizeAstro=0.1 //mas
   } else if (image_select.value=="img/HerculesA.jpg"){
     imgSizeAstro=12000 //mas
+  } else if (image_select.value=="img/ngc315.png"){
+    imgSizeAstro=40 //mas
   }
   plotLim_calc=imgSize*wavelength/(imgSizeAstro/1000/60/60/180*Math.PI)/100000/2;
   pixelSize_calc=plotLim_calc*2/imgSize;
